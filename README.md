@@ -34,10 +34,12 @@ module "vpc-peering" {
 ```
 Examples
 --------
+Complete example is shown abowe
+
 Authors
 -------
 Module managed by [Yurii Rochniak](https://github.com/grem11n)
+
 License
 -------
-
 Apache 2 Licensed. See LICENSE for full details.
