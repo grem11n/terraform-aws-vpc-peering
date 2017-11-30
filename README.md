@@ -12,7 +12,7 @@ Some features of the `aws_peering_conection` resource are missing. However, they
 
 These types of resources are supported:
 
-* [Perring Connection](https://www.terraform.io/docs/providers/aws/d/vpc_peering_connection.html)
+* [Peering Connection](https://www.terraform.io/docs/providers/aws/d/vpc_peering_connection.html)
 * [AWS Route](https://www.terraform.io/docs/providers/aws/r/route.html)
 
 Usage
