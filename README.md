@@ -34,7 +34,7 @@ module "vpc-peering" {
 ```
 Examples
 --------
-Complete example is shown abowe
+Complete example is shown above
 
 Authors
 -------
