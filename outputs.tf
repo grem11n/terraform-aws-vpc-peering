@@ -13,7 +13,7 @@ output "public_route_table" {
   value       = ["${var.public_route_table_ids}"]
 }
 
-output "peer_cird_block" {
+output "peer_cidr_block" {
   description = "Peer CIDR block"
-  value       = "${var.peer_cird_block}"
+  value       = "${var.peer_cidr_block}"
 }

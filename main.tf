@@ -15,7 +15,7 @@ resource "aws_route" "private_route_table" {
   count = "${length(var.private_route_table_ids)}"
 
   route_table_id            = "${element(var.private_route_table_ids, count.index)}"
-  destination_cidr_block    = "${var.peer_cird_block}"
+  destination_cidr_block    = "${var.peer_cidr_block}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.this.id}"
   depends_on                = ["aws_vpc_peering_connection.this"]
 }
@@ -27,7 +27,7 @@ resource "aws_route" "public_route_table" {
   count = "${length(var.public_route_table_ids) > 0 ? 1: 0}"
 
   route_table_id            = "${element(var.public_route_table_ids, count.index)}"
-  destination_cidr_block    = "${var.peer_cird_block}"
+  destination_cidr_block    = "${var.peer_cidr_block}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.this.id}"
   depends_on                = ["aws_vpc_peering_connection.this"]
 }
