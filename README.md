@@ -28,7 +28,7 @@ module "vpc-peering" {
   this_vpc_id             = "${module.vpc.vpc_id}"
   private_route_table_ids = ["${module.vpc.private_route_table_ids}"]
   public_route_table_ids  = ["${module.vpc.public_route_table_ids}"]
-  peer_cird_block         = "10.1.0.1/24"
+  peer_cidr_block         = "10.1.0.1/24"
   auto_accept_peering     = true
 }
 ```

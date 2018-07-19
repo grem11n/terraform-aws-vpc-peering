@@ -25,7 +25,7 @@ variable "public_route_table_ids" {
   default     = []
 }
 
-variable "peer_cird_block" {
+variable "peer_cidr_block" {
   description = "Peer VPC CIDR block"
   default     = ""
 }
