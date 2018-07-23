@@ -32,6 +32,24 @@ module "vpc-peering" {
   auto_accept_peering     = true
 }
 ```
+
+Usage with already created peering connection:
+```hc1 
+module "vpc-peering" {
+  source = "./terraform-aws-vpc-peering"
+
+  owner_account_id        = "000000000000"
+  vpc_peer_id             = "vpc-00000000"
+  this_vpc_id             = "${module.vpc.vpc_id}"
+  private_route_table_ids = ["${module.vpc.private_route_table_ids}"]
+  public_route_table_ids  = ["${module.vpc.public_route_table_ids}"]
+  peer_cidr_block         = "10.1.0.1/24"
+  auto_accept_peering     = true
+  create_peering          = 0
+  peering_id              = "pcx-00000000"
+
+}
+```
 Examples
 --------
 Complete example is shown above

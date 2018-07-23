@@ -34,3 +34,13 @@ variable "auto_accept_peering" {
   description = "Auto accept peering connection"
   default     = false
 }
+
+variable "create_peering" {
+  description = "Create peering connection, 0 to not create"
+  default = 1
+}
+
+variable "peering_id" {
+   description = "Provide already existing peering connection id"
+   default = ""
+}
