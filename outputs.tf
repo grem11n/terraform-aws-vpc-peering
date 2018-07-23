@@ -1,6 +1,6 @@
 output "vpc_peering_id" {
   description = "Peering connection ID"
-  value       = "${aws_vpc_peering_connection.this.id}"
+  value       = "${var.peering_id == "" ? element(concat(aws_vpc_peering_connection.this.*.id, list("")), 0) : var.peering_id}"
 }
 
 output "private_route_tables" {
