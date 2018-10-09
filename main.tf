@@ -1,12 +1,10 @@
 # Providers are required because of cross-region
 provider "aws" {
-  region = "${var.this_region}"
-  alias  = "this"
+  alias = "this"
 }
 
 provider "aws" {
-  region = "${var.peer_region}"
-  alias  = "peer"
+  alias = "peer"
 }
 
 ##########################
@@ -26,6 +24,7 @@ resource "aws_vpc_peering_connection" "this" {
 # Private routes #
 ##################
 resource "aws_route" "private_route_table" {
+  provider                  = "aws.this"
   count                     = "${length(var.private_route_table_ids)}"
   route_table_id            = "${element(var.private_route_table_ids, count.index)}"
   destination_cidr_block    = "${var.peer_cidr_block}"
@@ -36,6 +35,7 @@ resource "aws_route" "private_route_table" {
 # Public routes #
 #################
 resource "aws_route" "public_route_table" {
+  provider                  = "aws.this"
   count                     = "${length(var.public_route_table_ids)}"
   route_table_id            = "${element(var.public_route_table_ids, count.index)}"
   destination_cidr_block    = "${var.peer_cidr_block}"
