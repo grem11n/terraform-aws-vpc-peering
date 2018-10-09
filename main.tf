@@ -45,7 +45,7 @@ resource "aws_vpc_peering_connection" "this_cross_region" {
 # Accepter's side of the connection #
 #####################################
 resource "aws_vpc_peering_connection_accepter" "peer_aacepter" {
-  provider                  = "aws.peer"
+  provider                  = "${var.peer_provider}"
   count                     = "${(var.create_peering * var.cross_region_peering) == "1" ? 1 : 0}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.this_cross_region.id}"
   auto_accept               = true
