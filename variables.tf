@@ -18,6 +18,11 @@ variable "cross_region_peering" {
   default     = false
 }
 
+variable "this_region" {
+	description = "Main region alias: string"
+	default = ""
+}
+
 variable "peer_provider" {
   description = "Provider alias for the peer: string"
   default     = ""
