@@ -18,6 +18,11 @@ variable "cross_region_peering" {
   default     = false
 }
 
+variable "peer_provider" {
+  description = "Provider alias for the peer: string"
+  default     = ""
+}
+
 variable "peer_region" {
   description = "Peer Region Name e.g. us-east-1: string"
   default     = ""
@@ -56,7 +61,7 @@ variable "peering_id" {
 }
 
 variable "tags" {
-	description = "Tags: map"
-	type = "map"
-	default = {}
+  description = "Tags: map"
+  type        = "map"
+  default     = {}
 }
