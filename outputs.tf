@@ -22,7 +22,7 @@ output "private_route_tables" {
 
 output "public_route_table" {
   description = "Public route tables"
-  value       = ["${local.public_route_table_ids}"]
+  value       = ["${local.public_route_tables}"]
 }
 
 output "peer_cidr_block" {
