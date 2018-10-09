@@ -10,12 +10,12 @@ output "local_vpc_peering_accept_status" {
 
 output "cross_region_peering_connection_id" {
   description = "Cross Region Peering ID"
-  value       = "${var.cross_region_peering == 0 ? "No cross-region peering" ? aws_vpc_peering_connection.this_cross_region.id}"
+	value       = "${var.cross_region_peering == 0 ? "No cross-region peering" : aws_vpc_peering_connection.this_cross_region.id}"
 }
 
 output "cross_region_peering_accept_status" {
   description = "Cross Region Peering Status"
-  value       = "${var.cross_region_peering * var.create_peering == 0 ? "No cross-region peering" ? aws_vpc_peering_connection.this_cross_region.accept_status}"
+	value       = "${var.cross_region_peering * var.create_peering == 0 ? "No cross-region peering" : aws_vpc_peering_connection.this_cross_region.accept_status}"
 }
 
 output "private_route_tables" {
