@@ -3,7 +3,7 @@ variable "owner_account_id" {
   default     = ""
 }
 
-variable "vpc_peer_id" {
+variable "peer_vpc_id" {
   description = "Peer VPC ID: string"
   default     = ""
 }
@@ -19,8 +19,8 @@ variable "cross_region_peering" {
 }
 
 variable "this_region" {
-	description = "Main region alias: string"
-	default = ""
+  description = "Main region alias: string"
+  default     = ""
 }
 
 variable "peer_provider" {
