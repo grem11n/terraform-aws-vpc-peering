@@ -1,7 +1,19 @@
+# Providers are required because of cross-region
+provider "aws" {
+  region = "${var.this_region}"
+  alias  = "this"
+}
+
+provider "aws" {
+  region = "${var.peer_region}"
+  alias  = "peer"
+}
+
 ##########################
 # VPC peering connection #
 ##########################
 resource "aws_vpc_peering_connection" "this" {
+  provider      = "aws.this"
   count         = "${(var.create_peering * (1 + var.cross_region_peering)) == "1" ? 1 : 0}"
   peer_owner_id = "${var.owner_account_id == "" ? data.aws_caller_identity.current.account_id : var.owner_account_id}"
   peer_vpc_id   = "${var.vpc_peer_id}"
@@ -34,6 +46,7 @@ resource "aws_route" "public_route_table" {
 # VPC cross-region peering #
 ############################
 resource "aws_vpc_peering_connection" "this_cross_region" {
+  provider      = "aws.this"
   count         = "${(var.create_peering * var.cross_region_peering) == "1" ? 1 : 0}"
   peer_owner_id = "${var.owner_account_id == "" ? data.aws_caller_identity.current.account_id : var.owner_account_id}"
   peer_vpc_id   = "${var.vpc_peer_id}"
@@ -45,7 +58,7 @@ resource "aws_vpc_peering_connection" "this_cross_region" {
 # Accepter's side of the connection #
 #####################################
 resource "aws_vpc_peering_connection_accepter" "peer_aacepter" {
-  provider                  = "${var.peer_provider}"
+  provider                  = "aws.peer"
   count                     = "${(var.create_peering * var.cross_region_peering) == "1" ? 1 : 0}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.this_cross_region.id}"
   auto_accept               = true
