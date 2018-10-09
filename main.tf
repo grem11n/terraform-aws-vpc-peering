@@ -16,7 +16,7 @@ resource "aws_vpc_peering_connection" "this" {
   provider      = "aws.this"
   count         = "${(var.create_peering * (1 + var.cross_region_peering)) == "1" ? 1 : 0}"
   peer_owner_id = "${var.owner_account_id == "" ? data.aws_caller_identity.current.account_id : var.owner_account_id}"
-  peer_vpc_id   = "${var.vpc_peer_id}"
+  peer_vpc_id   = "${var.peer_vpc_id}"
   vpc_id        = "${var.this_vpc_id}"
   auto_accept   = "${var.auto_accept_peering}"
   tags          = "${var.tags}"
