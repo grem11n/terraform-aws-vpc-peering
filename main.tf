@@ -20,25 +20,25 @@ resource "aws_vpc_peering_connection" "this" {
   tags          = "${var.tags}"
 }
 
-##################
-# Private routes #
-##################
-resource "aws_route" "private_route_table" {
+###################
+# This VPC Routes #
+###################
+resource "aws_route" "this_routes" {
   provider                  = "aws.this"
-  count                     = "${length(var.private_route_table_ids)}"
-  route_table_id            = "${element(var.private_route_table_ids, count.index)}"
-  destination_cidr_block    = "${var.peer_cidr_block}"
+  count                     = "${length(data.aws_route_tables.this_vpc_rts.ids)}"
+  route_table_id            = "${data.aws_route_tables.this_vpc_rts.ids[count.index]}"
+  destination_cidr_block    = "${data.aws_vpc.peer_vpc.cidr_block}"
   vpc_peering_connection_id = "${var.peering_id == "" ? element(concat(aws_vpc_peering_connection.this.*.id, list("")), 0) : var.peering_id}"
 }
 
-#################
-# Public routes #
-#################
-resource "aws_route" "public_route_table" {
-  provider                  = "aws.this"
-  count                     = "${length(var.public_route_table_ids)}"
-  route_table_id            = "${element(var.public_route_table_ids, count.index)}"
-  destination_cidr_block    = "${var.peer_cidr_block}"
+###################
+# Peer VPC Routes #
+###################
+resource "aws_route" "peer_routes" {
+  provider                  = "aws.peer"
+  count                     = "${length(data.aws_route_tables.peer_vpc_rts.ids)}"
+  route_table_id            = "${data.aws_route_tables.peer_vpc_rts.ids[count.index]}"
+  destination_cidr_block    = "${data.aws_vpc.this_vpc.cidr_block}"
   vpc_peering_connection_id = "${var.peering_id == "" ? element(concat(aws_vpc_peering_connection.this.*.id, list("")), 0) : var.peering_id}"
 }
 

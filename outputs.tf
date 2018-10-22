@@ -1,8 +1,8 @@
 locals {
   vpc_peering_id        = "${compact(concat(coalescelist(aws_vpc_peering_connection.this.*.id, aws_vpc_peering_connection.this_cross_region.*.id), list("")))}"
   peering_accept_status = "${compact(concat(coalescelist(aws_vpc_peering_connection.this.*.accept_status, aws_vpc_peering_connection.this_cross_region.*.accept_status), list("")))}"
-  private_route_tables  = "${compact(concat(var.private_route_table_ids, list("")))}"
-  public_route_tables   = "${compact(concat(var.private_route_table_ids, list("")))}"
+  this_vpc_route_tables  = "${compact(concat(data.aws_route_tables.this_vpc_rts.ids, list("")))}"
+  peer_vpc_route_tables   = "${compact(concat(data.aws_route_tables.peer_vpc_rts.ids, list("")))}"
 }
 
 output "vpc_peering_id" {
@@ -15,14 +15,14 @@ output "vpc_peering_accept_status" {
   value       = ["${local.peering_accept_status}"]
 }
 
-output "private_route_tables" {
+output "this_vpc_route_tables" {
   description = "Private route tables"
-  value       = ["${local.private_route_tables}"]
+  value       = ["${local.this_vpc_route_tables}"]
 }
 
-output "public_route_table" {
+output "peer_vpc_route_table" {
   description = "Public route tables"
-  value       = ["${local.public_route_tables}"]
+  value       = ["${local.peer_vpc_route_tables}"]
 }
 
 output "peer_cidr_block" {
