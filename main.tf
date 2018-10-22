@@ -38,7 +38,7 @@ resource "aws_route" "peer_routes" {
   provider                  = "aws.peer"
   count                     = "${length(data.aws_route_tables.peer_vpc_rts.ids)}"
   route_table_id            = "${data.aws_route_tables.peer_vpc_rts.ids[count.index]}"
-  destination_cidr_block    = "${data.aws_vpc.peer_vpc.cidr_block}"
+  destination_cidr_block    = "${data.aws_vpc.this_vpc.cidr_block}"
   vpc_peering_connection_id = "${var.peering_id == "" ? element(concat(aws_vpc_peering_connection.this.*.id, list("")), 0) : var.peering_id}"
 }
 
