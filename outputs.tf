@@ -17,12 +17,12 @@ output "vpc_peering_accept_status" {
 
 output "this_vpc_route_tables" {
   description = "Private route tables"
-  value       = ["${local.private_route_tables}"]
+  value       = ["${local.this_vpc_route_tables}"]
 }
 
 output "peer_vpc_route_table" {
   description = "Public route tables"
-  value       = ["${local.public_route_tables}"]
+  value       = ["${local.peer_vpc_route_tables}"]
 }
 
 output "peer_cidr_block" {
