@@ -24,8 +24,3 @@ output "peer_vpc_route_table" {
   description = "Public route tables"
   value       = ["${local.peer_vpc_route_tables}"]
 }
-
-output "peer_cidr_block" {
-  description = "Peer CIDR block"
-  value       = "${var.peer_cidr_block}"
-}
