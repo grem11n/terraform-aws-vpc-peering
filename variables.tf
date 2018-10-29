@@ -18,30 +18,8 @@ variable "cross_region_peering" {
   default     = false
 }
 
-variable "peer_provider" {
-  description = "Provider alias for the peer: string"
-  default     = ""
-}
-
 variable "peer_region" {
   description = "Peer Region Name e.g. us-east-1: string"
-  default     = ""
-}
-
-variable "private_route_table_ids" {
-  type        = "list"
-  description = "A list of private route tables: list"
-  default     = []
-}
-
-variable "public_route_table_ids" {
-  type        = "list"
-  description = "A list of public route tables: list"
-  default     = []
-}
-
-variable "peer_cidr_block" {
-  description = "Peer VPC CIDR block: string"
   default     = ""
 }
 
