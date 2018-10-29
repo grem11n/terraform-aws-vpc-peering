@@ -18,7 +18,7 @@ These types of resources are supported:
 Usage
 -----
 
-### Single Region Peering 
+### Single Region Peering
 **Notice**: You need to declare both providers even with single region peering.
 
 ```hc1
@@ -34,9 +34,6 @@ module "vpc_single_region_peering" {
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
   cross_region_peering    = false
-  private_route_table_ids = ["rtb-0000000"]
-  public_route_table_ids  = ["rtb-1111111"]
-  peer_cidr_block         = "10.1.0.1/24"
   auto_accept_peering     = true
   create_peering          = true
 
@@ -61,9 +58,6 @@ module "vpc_single_region_peering" {
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
   cross_region_peering    = false
-  private_route_table_ids = ["rtb-0000000"]
-  public_route_table_ids  = ["rtb-1111111"]
-  peer_cidr_block         = "10.1.0.1/24"
   auto_accept_peering     = true
   create_peering          = 0
   peering_id              = "pcx-00000000"
@@ -86,9 +80,6 @@ module "vpc_cross_region_peering" {
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
   cross_region_peering    = true
-  private_route_table_ids = ["rtb-0000000"]
-  public_route_table_ids  = ["rtb-1111111"]
-  peer_cidr_block         = "10.1.0.1/24"
   auto_accept_peering     = true
   create_peering          = true
 
