@@ -49,7 +49,7 @@ module "vpc_single_region_peering" {
 ```
 
 Usage with already created peering connection:
-```hc1 
+```hc1
 module "vpc_single_region_peering" {
   source = "./terraform-aws-vpc-peering"
 
@@ -84,6 +84,33 @@ module "vpc_cross_region_peering" {
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
   cross_region_peering    = true
+  auto_accept_peering     = true
+  create_peering          = true
+
+  tags = {
+    Name        = "my-peering-connection"
+    Environment = "prod"
+  }
+}
+```
+
+### Cross Account Peering
+**Notice**: You need to declare both providers even with single region peering.
+
+```hc1
+module "vpc_single_region_peering" {
+  source = "./terraform-aws-vpc-peering"
+
+  providers = {
+    aws.this = "aws"
+    aws.peer = "aws"
+  }
+
+  peer_account_id         = "EEEEEEEEE"
+  peer_region             = "eu-west-1"
+  this_vpc_id             = "vpc-00000000"
+  peer_vpc_id             = "vpc-11111111"
+  cross_region_peering    = false
   auto_accept_peering     = true
   create_peering          = true
 
