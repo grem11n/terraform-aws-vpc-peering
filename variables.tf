@@ -1,5 +1,5 @@
-variable "owner_account_id" {
-  description = "AWS owner account ID: string"
+variable "peer_account_id" {
+  description = "AWS owner account ID for Peer VPC. Default to the current account: string"
   default     = ""
 }
 
