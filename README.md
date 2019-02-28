@@ -10,6 +10,11 @@ Routes on the Peer VPC side should be configured separately.
 
 This module is designed to work with [VPC](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/) module from the Terraform Registry
 
+Changelog
+----
+Changelog is in the [CHANGELOG.md](CHANGELOG.md)
+
+
 Note
 ----
 
@@ -49,7 +54,7 @@ module "vpc_single_region_peering" {
 ```
 
 Usage with already created peering connection:
-```hc1 
+```hc1
 module "vpc_single_region_peering" {
   source = "./terraform-aws-vpc-peering"
 
@@ -92,6 +97,18 @@ module "vpc_cross_region_peering" {
     Environment = "prod"
   }
 }
+```
+
+### Cross Account Peering
+In order to make a cross-account peering connection, you must setup both `owner` and `peer` providers accordingly. Also, you have to provide a valid ID of the peer account. Example:
+
+```hc1
+providers = {
+  aws.this = "main" // Alias to the main AWS account
+  aws.peer = "peer" // Alias to the peer AWS account
+}
+
+peer_account_id = "AAABBBCCC1111" // An ID of the peer AWS account
 ```
 
 Examples
