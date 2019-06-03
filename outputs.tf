@@ -1,18 +1,51 @@
 locals {
-  vpc_peering_id        = "${compact(concat(coalescelist(aws_vpc_peering_connection.this.*.id, aws_vpc_peering_connection.this_cross_region.*.id), list("")))}"
-  peering_accept_status = "${compact(concat(coalescelist(aws_vpc_peering_connection.this.*.accept_status, aws_vpc_peering_connection.this_cross_region.*.accept_status), list("")))}"
   this_vpc_route_tables = "${compact(concat(data.aws_route_tables.this_vpc_rts.ids, list("")))}"
   peer_vpc_route_tables = "${compact(concat(data.aws_route_tables.peer_vpc_rts.ids, list("")))}"
 }
 
 output "vpc_peering_id" {
   description = "Peering connection ID"
-  value       = ["${local.vpc_peering_id}"]
+  value       = "${aws_vpc_peering_connection.this.*.id}"
 }
 
 output "vpc_peering_accept_status" {
   description = "Accept status for the connection"
-  value       = ["${local.peering_accept_status}"]
+  value       = "${aws_vpc_peering_connection_accepter.peer_accepter.*.accept_status}"
+}
+
+output "peer_vpc_id" {
+  description = "The ID of the accepter VPC"
+  value       = "${aws_vpc_peering_connection_accepter.peer_accepter.*.vpc_id}"
+}
+
+output "this_vpc_id" {
+  description = "The ID of the requester VPC"
+  value       = "${aws_vpc_peering_connection_accepter.peer_accepter.*.peer_vpc_id}"
+}
+
+output "this_owner_id" {
+  description = "The AWS account ID of the owner of the requester VPC"
+  value       = "${aws_vpc_peering_connection_accepter.peer_accepter.*.peer_owner_id}"
+}
+
+output "peer_owner_id" {
+  description = "The AWS account ID of the owner of the accepter VPC"
+  value       = "${var.peer_account_id == "" ? data.aws_caller_identity.current.account_id : var.peer_account_id}"
+}
+
+output "peer_region" {
+  description = "The region of the accepter VPC"
+  value       = "${aws_vpc_peering_connection_accepter.peer_accepter.*.peer_region}"
+}
+
+output "accepter_options" {
+  description = "VPC Peering Connection options set for the accepter VPC"
+  value       = "${aws_vpc_peering_connection_accepter.peer_accepter.*.accepter}"
+}
+
+output "requester_options" {
+  description = "VPC Peering Connection options set for the requester VPC"
+  value       = "${aws_vpc_peering_connection_accepter.peer_accepter.*.requester}"
 }
 
 output "this_vpc_route_tables" {
