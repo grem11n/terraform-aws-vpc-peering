@@ -7,7 +7,6 @@ script:
   - ./build_scripts/download-tf.sh
   - terraform init
   - terraform fmt -check=true
-  - terraform validate -check-variables=false
 
 notifications:
   email:
