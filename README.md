@@ -17,9 +17,9 @@ Preamble
 Please, be aware that any new code in `master` may intorduce some regressions. Moreover, sometimes I can easily miss some of them because I personally doen't use all the VPC peering features on daily basis.
 
 ### Terraform 12
-Current `master` has the code, which works with Terraform 0.11.
+Current `master` has the code, which works with Terraform 0.12.
 
-However, [Terraform 0.12](https://www.hashicorp.com/blog/announcing-terraform-0-12) is here. Thus, I'm going to update this module to work with it. All existing work would be migrated to the `terraform011` branch.
+The code, which works with Terraform 0.11 is in the `terraform011` branch.
 
 Changelog
 ----
