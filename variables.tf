@@ -1,8 +1,3 @@
-variable "peer_account_id" {
-  description = "AWS owner account ID for Peer VPC. Default to the current account: string"
-  default     = ""
-}
-
 variable "peer_vpc_id" {
   description = "Peer VPC ID: string"
   default     = ""
@@ -13,24 +8,9 @@ variable "this_vpc_id" {
   default     = ""
 }
 
-variable "peer_region" {
-  description = "Peer Region Name e.g. us-east-1: string"
-  default     = ""
-}
-
 variable "auto_accept_peering" {
   description = "Auto accept peering connection: bool"
   default     = false
-}
-
-variable "create_peering" {
-  description = "Create peering connection, 0 to not create: bool"
-  default     = true
-}
-
-variable "peering_id" {
-  description = "Provide already existing peering connection id"
-  default     = ""
 }
 
 variable "tags" {
