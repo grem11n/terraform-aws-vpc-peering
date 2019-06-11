@@ -1,10 +1,10 @@
 AWS VPC Peering Connection Module
 =================================
 
-|Branch|Build Status|
-|------|------------|
-|**Master**|[![Build Status](https://travis-ci.org/grem11n/terraform-aws-vpc-peering.svg?branch=master)](https://travis-ci.org/grem11n/terraform-aws-vpc-peering)|
-|**terraform011**|[![Build Status](https://travis-ci.org/grem11n/terraform-aws-vpc-peering.svg?branch=terraform011)](https://travis-ci.org/grem11n/terraform-aws-vpc-peering)|
+| Branch           | Build Status                                                                                                                                                |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Master**       | [![Build Status](https://travis-ci.org/grem11n/terraform-aws-vpc-peering.svg?branch=master)](https://travis-ci.org/grem11n/terraform-aws-vpc-peering)       |
+| **terraform011** | [![Build Status](https://travis-ci.org/grem11n/terraform-aws-vpc-peering.svg?branch=terraform011)](https://travis-ci.org/grem11n/terraform-aws-vpc-peering) |
 
 Terraform module, which creates a peering connection between two VPCs and adds routes to the local VPC.
 Routes on the Peer VPC side should be configured separately.
@@ -54,12 +54,9 @@ module "vpc_single_region_peering" {
     aws.peer = "aws"
   }
 
-  peer_region             = "eu-west-1"
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
-  cross_region_peering    = false
   auto_accept_peering     = true
-  create_peering          = true
 
   tags = {
     Name        = "my-peering-connection"
@@ -78,14 +75,9 @@ module "vpc_single_region_peering" {
     aws.peer = "aws"
   }
 
-  peer_region             = "eu-west-1"
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
-  cross_region_peering    = false
   auto_accept_peering     = true
-  create_peering          = 0
-  peering_id              = "pcx-00000000"
-
 }
 ```
 
@@ -100,12 +92,9 @@ module "vpc_cross_region_peering" {
     aws.peer = "aws.dst"
   }
 
-  peer_region             = "us-east-1"
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
-  cross_region_peering    = true
   auto_accept_peering     = true
-  create_peering          = true
 
   tags = {
     Name        = "my-peering-connection"
@@ -123,7 +112,6 @@ providers = {
   aws.peer = "peer" // Alias to the peer AWS account
 }
 
-peer_account_id = "AAABBBCCC1111" // An ID of the peer AWS account
 ```
 
 Examples

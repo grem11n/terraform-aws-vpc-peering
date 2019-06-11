@@ -6,10 +6,10 @@ data "aws_region" "this" {
 }
 
 data "aws_caller_identity" "peer" {
-  provider = "aws.this"
+  provider = "aws.peer"
 }
 data "aws_region" "peer" {
-  provider = "aws.this"
+  provider = "aws.peer"
 }
 
 data "aws_vpc" "this_vpc" {

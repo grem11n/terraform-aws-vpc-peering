@@ -3,6 +3,15 @@ locals {
   peer_vpc_route_tables = data.aws_route_tables.peer_vpc_rts.ids
 }
 
+output "aws_vpc_peering_connection" {
+  value = aws_vpc_peering_connection.this
+}
+
+output "aws_vpc_peering_connection_accepter" {
+  value = aws_vpc_peering_connection_accepter.peer_accepter
+}
+
+
 output "vpc_peering_id" {
   description = "Peering connection ID"
   value       = aws_vpc_peering_connection.this.id
