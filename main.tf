@@ -60,7 +60,7 @@ resource "aws_vpc_peering_connection_options" "accepter" {
 ###################
 resource "aws_route" "this_routes_region" {
   provider                  = "aws.this"
-  count                     = length(data.aws_route_tables.peer_vpc_rts.ids)
+  count                     = length(data.aws_route_tables.this_vpc_rts.ids)
   route_table_id            = tolist(data.aws_route_tables.this_vpc_rts.ids)[count.index]
   destination_cidr_block    = data.aws_vpc.peer_vpc.cidr_block
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id
