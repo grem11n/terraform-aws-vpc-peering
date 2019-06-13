@@ -62,7 +62,7 @@ resource "aws_vpc_peering_connection_options" "accepter" {
 ###################
 resource "aws_route" "this_routes_region" {
   provider                  = "aws.this"
-  count                     = "${var.create_peering == 1 ? length(data.aws_route_tables.peer_vpc_rts.ids) : 0}"
+  count                     = "${var.create_peering == 1 ? length(data.aws_route_tables.this_vpc_rts.ids) : 0}"
   route_table_id            = "${data.aws_route_tables.this_vpc_rts.ids[count.index]}"
   destination_cidr_block    = "${data.aws_vpc.peer_vpc.cidr_block}"
   vpc_peering_connection_id = "${var.peering_id == "" ? element(concat(aws_vpc_peering_connection.this.*.id, list("")), 0) : var.peering_id}"
