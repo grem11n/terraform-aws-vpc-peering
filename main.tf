@@ -48,7 +48,7 @@ resource "aws_vpc_peering_connection_options" "this" {
 }
 
 resource "aws_vpc_peering_connection_options" "accepter" {
-  provider = "aws.peer"
+  provider                  = "aws.peer"
   vpc_peering_connection_id = aws_vpc_peering_connection_accepter.peer_accepter.id
 
   # See https://github.com/terraform-providers/terraform-provider-aws/issues/6730
