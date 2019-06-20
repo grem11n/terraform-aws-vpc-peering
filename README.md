@@ -16,10 +16,12 @@ Preamble
 **Always make sure you pinned the module version!**
 Please, be aware that any new code in `master` may intorduce some regressions. Moreover, sometimes I can easily miss some of them because I personally doen't use all the VPC peering features on daily basis.
 
-### Terraform 12
-Current `master` has the code, which works with Terraform 0.12.
+Terraform versions
+----
 
-The code, which works with Terraform 0.11 is in the `terraform011` branch.
+Terraform 0.12. Pin module version to `~> v2.x.x`. Submit pull-requests to `master` branch.
+
+Terraform 0.11. Pin module version to `~> v1.x.x`. Submit pull-requests to `terraform011` branch.
 
 Changelog
 ----
