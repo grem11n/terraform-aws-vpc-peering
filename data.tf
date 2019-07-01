@@ -1,5 +1,16 @@
-data "aws_caller_identity" "current" {}
-data "aws_region" "current" {}
+data "aws_caller_identity" "current" {
+  provider = "aws.this"
+}
+data "aws_caller_identity" "peer" {
+  provider = "aws.peer"
+}
+
+data "aws_region" "this" {
+  provider = "aws.this"
+}
+data "aws_region" "peer" {
+  provider = "aws.peer"
+}
 
 data "aws_vpc" "this_vpc" {
   provider = "aws.this"
