@@ -1,10 +1,7 @@
 AWS VPC Peering Connection Module
 =================================
 
-|Branch|Build Status|
-|------|------------|
-|**Master**|[![Build Status](https://travis-ci.org/grem11n/terraform-aws-vpc-peering.svg?branch=master)](https://travis-ci.org/grem11n/terraform-aws-vpc-peering)|
-|**terraform011**|[![Build Status](https://travis-ci.org/grem11n/terraform-aws-vpc-peering.svg?branch=terraform011)](https://travis-ci.org/grem11n/terraform-aws-vpc-peering)|
+[![CircleCI](https://circleci.com/gh/grem11n/terraform-aws-vpc-peering/tree/terraform011.svg?style=svg)](https://circleci.com/gh/grem11n/terraform-aws-vpc-peering/tree/terraform011)
 
 Terraform module, which creates a peering connection between two VPCs and adds routes to the local VPC.
 Routes on the Peer VPC side should be configured separately.

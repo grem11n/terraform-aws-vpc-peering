@@ -1,6 +1,12 @@
 Unreleased
 ----
 
+* Move to CircleCI in favor of Travis
+* Create a test case for a single account, single region peering
+* Add example configuration for a single account, single region peering, which is tested
+* Updated README
+* Marked value `create_peering` for deprecation
+
 v1.1.0
 ----
 

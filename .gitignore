@@ -4,3 +4,9 @@
 
 # Module directory
 .terraform/
+
+# go deps
+vendor/
+
+# Tests directory
+.test-data/
