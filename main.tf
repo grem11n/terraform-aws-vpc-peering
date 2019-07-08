@@ -82,12 +82,3 @@ resource "aws_route" "peer_routes_region" {
   destination_cidr_block    = "${data.aws_vpc.this_vpc.cidr_block}"
   vpc_peering_connection_id = "${var.peering_id == "" ? element(concat(aws_vpc_peering_connection.this.*.id, list("")), 0) : var.peering_id}"
 }
-
-######################
-# Manage dependecies #
-######################
-resource "null_resource" "dependency" {
-  triggers = {
-    dependecies = "${join(",", var.depends_on)}"
-  }
-}
