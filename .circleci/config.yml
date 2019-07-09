@@ -39,7 +39,7 @@ jobs:
     steps:
       - checkout
       - run:
-        <<: *install_test_deps
+          <<: *install_test_deps
       - run: dep ensure -vendor-only
       - run: go test -v -timeout=30m .
 
