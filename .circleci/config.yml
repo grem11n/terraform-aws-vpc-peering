@@ -40,6 +40,7 @@ jobs:
       - checkout
       - run:
           <<: *install_test_deps
+      - run: ls -lah
       - run: dep ensure -vendor-only
       - run: go test -v -timeout=30m .
 
