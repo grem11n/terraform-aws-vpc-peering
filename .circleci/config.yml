@@ -35,7 +35,7 @@ jobs:
 
   test:
     <<: *defaults
-    working_directory: ~/test
+    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
       - checkout
       - run:
