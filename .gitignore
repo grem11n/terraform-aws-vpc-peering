@@ -7,3 +7,6 @@
 
 # go deps
 vendor/
+
+# Tests directory
+.test-data/
