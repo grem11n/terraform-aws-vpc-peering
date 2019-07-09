@@ -8,6 +8,7 @@ jobs:
       only:
         - master
         - terraform011
+        - tests011
     docker:
       # specify the version
       - image: circleci/golang:1.12
