@@ -57,3 +57,8 @@ output "peer_vpc_route_table" {
   description = "Public route tables"
   value       = ["${local.peer_vpc_route_tables}"]
 }
+
+output "deprecation_notice" {
+  description = "This output is used for deprecation notices"
+  value       = "WARNING! Variable `create_peering` will be deprecated in the next release for Terraform 0.11.x"
+}
