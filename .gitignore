@@ -4,3 +4,7 @@
 
 # Module directory
 .terraform/
+
+# go deps
+Gopkg.lock
+vendor/
