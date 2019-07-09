@@ -18,7 +18,6 @@ filters: &filters
     only:
       - master
       - terraform011
-      - tests011
 
 version: 2
 jobs:
