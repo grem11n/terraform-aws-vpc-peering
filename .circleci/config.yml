@@ -28,7 +28,7 @@ jobs:
     steps:
       - checkout
       - run:
-        <<: *install_test_deps
+          <<: *install_test_deps
       - run: terraform init
       - run: terraform fmt -check=true
       - run: terraform validate -check-variables=false
