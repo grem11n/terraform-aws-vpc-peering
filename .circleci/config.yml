@@ -24,7 +24,7 @@ version: 2
 jobs:
   lint:
     <<: *defaults
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/grem11n/terraform-aws-vpc-peering
     steps:
       - checkout
       - run:
@@ -35,7 +35,7 @@ jobs:
 
   test:
     <<: *defaults
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/grem11n/terraform-aws-vpc-peering
     steps:
       - checkout
       - run:
