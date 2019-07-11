@@ -39,7 +39,7 @@ Usage
 -----
 
 ### Examples
-Sample configuration is located in [examples](examples/) directory. There are not many of them right now, but I'll add more soon.
+Sample configuration is located in [examples](examples/) directory.
 
 ### Single Region Peering
 **Notice**: You need to declare both providers even with single region peering.
@@ -58,7 +58,6 @@ module "vpc_single_region_peering" {
   peer_vpc_id             = "vpc-11111111"
   cross_region_peering    = false
   auto_accept_peering     = true
-  create_peering          = true
 
   tags = {
     Name        = "my-peering-connection"
@@ -82,7 +81,6 @@ module "vpc_single_region_peering" {
   peer_vpc_id             = "vpc-11111111"
   cross_region_peering    = false
   auto_accept_peering     = true
-  create_peering          = 0
   peering_id              = "pcx-00000000"
 
 }
@@ -104,7 +102,6 @@ module "vpc_cross_region_peering" {
   peer_vpc_id             = "vpc-11111111"
   cross_region_peering    = true
   auto_accept_peering     = true
-  create_peering          = true
 
   tags = {
     Name        = "my-peering-connection"
@@ -125,9 +122,11 @@ providers = {
 peer_account_id = "AAABBBCCC1111" // An ID of the peer AWS account
 ```
 
-Examples
---------
-Complete example is shown above
+Testing
+----
+
+This module is tested with [Terratest](https://github.com/gruntwork-io/terratest)
+You can find existing tests in the [test/](test/) directory.
 
 Authors
 -------
