@@ -10,3 +10,6 @@ vendor/
 
 # Tests directory
 .test-data/
+
+# Workaround for go test
+main.go

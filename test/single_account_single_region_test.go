@@ -8,47 +8,57 @@ import (
 )
 
 func TestSingleAccountSingleRegion(t *testing.T) {
-	// TF files folders
-	fixturesDir := "./fixtures/single-account-single-region"
-	moduleDir := "../examples/single-account-single-region"
-
-	// Assertions
-	expectedPeeringStatus := "active"
-
-	// Terraform Options for fixtures
-	fixturesTerraformOptions := &terraform.Options{
-		TerraformDir: fixturesDir,
+	testCases := []struct {
+		Name        string
+		fixturesDir string
+		moduleDir   string
+	}{
+		{"SingleAccountSingleRegion", "./fixtures/single-account-single-region", "../examples/single-account-single-region"},
+		{"SingleAccountSingleRegionWithOptions", "./fixtures/single-account-single-region-with-options", "../examples/single-account-single-region-with-options"},
 	}
 
-	// Remove the fixtures resources in the end of the test
-	defer terraform.Destroy(t, fixturesTerraformOptions)
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			// Assertions
+			expectedPeeringStatus := "active"
 
-	// Install Prerequisites
-	terraform.InitAndApply(t, fixturesTerraformOptions)
+			// Terraform Options for fixtures
+			fixturesTerraformOptions := &terraform.Options{
+				TerraformDir: tc.fixturesDir,
+			}
 
-	// Get the outputs from fixtures
-	thisVpcID := terraform.Output(t, fixturesTerraformOptions, "this_vpc_id")
-	peerVpcID := terraform.Output(t, fixturesTerraformOptions, "peer_vpc_id")
+			// Remove the fixtures resources in the end of the test
+			defer terraform.Destroy(t, fixturesTerraformOptions)
 
-	// Terraform Options for module
-	moduleTerraformOptions := &terraform.Options{
-		TerraformDir: moduleDir,
-		// Variables from the fixtures
-		Vars: map[string]interface{}{
-			"this_vpc_id": thisVpcID,
-			"peer_vpc_id": peerVpcID,
-		},
+			// Install Prerequisites
+			terraform.InitAndApply(t, fixturesTerraformOptions)
+
+			// Get the outputs from fixtures
+			thisVpcID := terraform.Output(t, fixturesTerraformOptions, "this_vpc_id")
+			peerVpcID := terraform.Output(t, fixturesTerraformOptions, "peer_vpc_id")
+
+			// Terraform Options for module
+			moduleTerraformOptions := &terraform.Options{
+				TerraformDir: tc.moduleDir,
+				// Variables from the fixtures
+				Vars: map[string]interface{}{
+					"this_vpc_id": thisVpcID,
+					"peer_vpc_id": peerVpcID,
+				},
+			}
+
+			// Remove the module resources in the end of the test
+			defer terraform.Destroy(t, moduleTerraformOptions)
+
+			// Create module resources
+			terraform.InitAndApply(t, moduleTerraformOptions)
+
+			// Retrieve information with `terraform output`
+			actualPeeringStatus := terraform.Output(t, moduleTerraformOptions, "vpc_peering_accept_status")
+
+			// Verify results
+			assert.Equal(t, expectedPeeringStatus, actualPeeringStatus)
+
+		})
 	}
-
-	// Remove the module resources in the end of the test
-	defer terraform.Destroy(t, moduleTerraformOptions)
-
-	// Create module resources
-	terraform.InitAndApply(t, moduleTerraformOptions)
-
-	// Retrieve information with `terraform output`
-	actualPeeringStatus := terraform.Output(t, moduleTerraformOptions, "vpc_peering_accept_status")
-
-	// Verify results
-	assert.Equal(t, expectedPeeringStatus, actualPeeringStatus)
 }
