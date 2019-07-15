@@ -20,5 +20,5 @@ variable "azs_this" {
 variable "azs_peer" {
   description = "Availability Zones for accepter VPC"
   type        = "list"
-  default     = ["us-west-1a", "us-west-1b"]
+  default     = ["us-west-1a", "us-west-1c"]
 }
