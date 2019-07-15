@@ -1,4 +1,4 @@
-Unreleased
+Unreleased (Terraform < 0.12)
 ----
 
 * Move to CircleCI in favor of Travis
