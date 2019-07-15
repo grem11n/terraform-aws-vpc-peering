@@ -12,10 +12,10 @@ provider "aws" {
 ##########################
 resource "aws_vpc_peering_connection" "this" {
   provider      = "aws.this"
-  peer_owner_id = "${var.peer_account_id == "" ? data.aws_caller_identity.current.account_id : var.peer_account_id}"
+  peer_owner_id = "${var.peer_account_id == "" ? data.aws_caller_identity.this.account_id : var.peer_account_id}"
   peer_vpc_id   = "${var.peer_vpc_id}"
   vpc_id        = "${var.this_vpc_id}"
-  peer_region   = "${var.peer_region == "" ? data.aws_region.current.name : var.peer_region}"
+  peer_region   = "${var.peer_region == "" ? data.aws_region.this.name : var.peer_region}"
   tags          = "${var.tags}"
 }
 
@@ -36,6 +36,8 @@ resource "aws_vpc_peering_connection_options" "this" {
   provider                  = "aws.this"
   vpc_peering_connection_id = "${aws_vpc_peering_connection_accepter.peer_accepter.id}"
 
+  count = "${data.aws_region.this.name == data.aws_region.peer.name ? 1 : 0}"
+
   requester {
     allow_remote_vpc_dns_resolution  = "${var.this_dns_resolution}"
     allow_classic_link_to_remote_vpc = "${var.this_link_to_peer_classic}"
@@ -47,6 +49,8 @@ resource "aws_vpc_peering_connection_options" "accepter" {
   provider = "aws.peer"
 
   vpc_peering_connection_id = "${aws_vpc_peering_connection_accepter.peer_accepter.id}"
+
+  count = "${data.aws_region.this.name == data.aws_region.peer.name ? 1 : 0}"
 
   accepter {
     allow_remote_vpc_dns_resolution  = "${var.peer_dns_resolution}"

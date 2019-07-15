@@ -1,26 +1,28 @@
-# Single Account Single Region VPC Peering
+# Single Account Multi Region VPC Peering
 
-This is a basic configuration example, which creates a peering connection between VPCs in a single region within the same AWS account.
+This example creates a peering connection between VPCs in different regions, which are located in the same AWS account.
 
-## Code Sample
+## Sample Code
 
 ```
-module "single_account_single_region" {
+module "single_account_multi_region" {
   source = "../../"
 
   providers = {
-    aws.this = "aws"
-    aws.peer = "aws"
+    aws.this = "aws.us-east-1"
+    aws.peer = "aws.us-west-1"
   }
 
   this_vpc_id = "${var.this_vpc_id}"
   peer_vpc_id = "${var.peer_vpc_id}"
 
+  peer_region = "us-west-1"
+
   create_peering      = true
   auto_accept_peering = true
 
   tags = {
-    Name        = "tf-single-account-single-region"
+    Name        = "tf-single-account-multi-region"
     Environment = "Test"
   }
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSingleAccountSingleRegion(t *testing.T) {
+func TestPeeringActive(t *testing.T) {
 	testCases := []struct {
 		Name        string
 		fixturesDir string
@@ -15,6 +15,7 @@ func TestSingleAccountSingleRegion(t *testing.T) {
 	}{
 		{"SingleAccountSingleRegion", "./fixtures/single-account-single-region", "../examples/single-account-single-region"},
 		{"SingleAccountSingleRegionWithOptions", "./fixtures/single-account-single-region-with-options", "../examples/single-account-single-region-with-options"},
+		{"SingleAccountMultiRegion", "./fixtures/single-account-multi-region", "../examples/single-account-multi-region"},
 	}
 
 	for _, tc := range testCases {

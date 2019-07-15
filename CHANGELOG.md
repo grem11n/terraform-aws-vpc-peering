@@ -1,11 +1,15 @@
 Unreleased
 ----
 
-* Move to CircleCI in favor of Travis
+v1.2.0
+----
+
 * Create a test case for a single account, single region peering
 * Add example configuration for a single account, single region peering, which is tested
 * Updated README
 * Marked value `create_peering` for deprecation
+* Added test for cross-region peering in the same AWS account
+* Fixed cross-region peering for TF < 0.12 version
 
 v1.1.0
 ----
