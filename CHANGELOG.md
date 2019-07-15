@@ -1,7 +1,9 @@
-Unreleased (Terraform < 0.12)
+Unreleased
 ----
 
-* Move to CircleCI in favor of Travis
+v1.2.0
+----
+
 * Create a test case for a single account, single region peering
 * Add example configuration for a single account, single region peering, which is tested
 * Updated README
