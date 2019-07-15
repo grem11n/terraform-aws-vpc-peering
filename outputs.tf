@@ -30,7 +30,7 @@ output "this_owner_id" {
 
 output "peer_owner_id" {
   description = "The AWS account ID of the owner of the accepter VPC"
-  value       = "${var.peer_account_id == "" ? data.aws_caller_identity.current.account_id : var.peer_account_id}"
+  value       = "${var.peer_account_id == "" ? data.aws_caller_identity.this.account_id : var.peer_account_id}"
 }
 
 output "peer_region" {

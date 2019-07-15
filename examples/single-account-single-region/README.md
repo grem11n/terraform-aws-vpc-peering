@@ -2,6 +2,30 @@
 
 This is a basic configuration example, which creates a peering connection between VPCs in a single region within the same AWS account.
 
+## Code Sample
+
+```
+module "single_account_single_region" {
+  source = "../../"
+
+  providers = {
+    aws.this = "aws"
+    aws.peer = "aws"
+  }
+
+  this_vpc_id = "${var.this_vpc_id}"
+  peer_vpc_id = "${var.peer_vpc_id}"
+
+  create_peering      = true
+  auto_accept_peering = true
+
+  tags = {
+    Name        = "tf-single-account-single-region"
+    Environment = "Test"
+  }
+}
+```
+
 ## Usage
 
 Change the variables to fit your purposes and run:
