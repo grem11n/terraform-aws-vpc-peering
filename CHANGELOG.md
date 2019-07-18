@@ -1,6 +1,9 @@
 Unreleased
 ----
 
+* Tests for cross-account / cross-region peering configuration
+* Mark variable `peer_account_id` for deprecation
+
 v1.2.0
 ----
 
