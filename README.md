@@ -13,7 +13,7 @@ Preamble
 **Always make sure you pinned the module version!**
 Please, be aware that any new code in `master` may intorduce some regressions. Moreover, sometimes I can easily miss some of them because I personally doen't use all the VPC peering features on daily basis.
 
-Terraform versions
+Terraform versions / Contributions
 ----
 
 Terraform 0.12. Pin module version to `~> v2.0`. Submit pull-requests to `master` branch.
@@ -86,7 +86,11 @@ module "vpc_single_region_peering" {
 }
 ```
 
-### Cross Region Peering
+### Cross Region Peering / Cross Account Peering
+
+In order to setup cross-region or cross-account peering connection, you must configure `providers` for Terraform. You can find an example [here](examples/multi-account-multi-region).
+
+[Medium post](https://medium.com/@bonya/terraform-managing-resources-in-multiple-aws-accounts-c13015b89fce), which might be useful.
 
 ```hc1
 module "vpc_cross_region_peering" {
@@ -108,18 +112,6 @@ module "vpc_cross_region_peering" {
     Environment = "prod"
   }
 }
-```
-
-### Cross Account Peering
-In order to make a cross-account peering connection, you must setup both `owner` and `peer` providers accordingly. Also, you have to provide a valid ID of the peer account. Example:
-
-```hc1
-providers = {
-  aws.this = "main" // Alias to the main AWS account
-  aws.peer = "peer" // Alias to the peer AWS account
-}
-
-peer_account_id = "AAABBBCCC1111" // An ID of the peer AWS account
 ```
 
 Testing
