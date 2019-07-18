@@ -38,7 +38,7 @@ resource "aws_vpc_peering_connection_options" "this" {
 
   # See https://github.com/terraform-providers/terraform-provider-aws/issues/6730
   # Until this is fixed, we must not try and set any options for cross-region peering.
-  count = data.aws_region.this.name == data.aws_region.peer.name ? 1 : 0
+  count = (data.aws_region.this.name == data.aws_region.peer.name ? 1 : 0)
 
   requester {
     allow_remote_vpc_dns_resolution  = var.this_dns_resolution
@@ -53,7 +53,7 @@ resource "aws_vpc_peering_connection_options" "accepter" {
 
   # See https://github.com/terraform-providers/terraform-provider-aws/issues/6730
   # Until this is fixed, we must not try and set any options for cross-region peering.
-  count = data.aws_region.this.name == data.aws_region.peer.name ? 1 : 0
+  count = (data.aws_region.this.name == data.aws_region.peer.name ? 1 : 0)
 
   accepter {
     allow_remote_vpc_dns_resolution  = var.peer_dns_resolution
