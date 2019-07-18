@@ -12,7 +12,7 @@ provider "aws" {
 ##########################
 resource "aws_vpc_peering_connection" "this" {
   provider      = "aws.this"
-  peer_owner_id = "${var.peer_account_id == "" ? data.aws_caller_identity.this.account_id : var.peer_account_id}"
+  peer_owner_id = "${data.aws_caller_identity.peer.account_id}"
   peer_vpc_id   = "${var.peer_vpc_id}"
   vpc_id        = "${var.this_vpc_id}"
   peer_region   = "${var.peer_region == "" ? data.aws_region.this.name : var.peer_region}"

@@ -60,5 +60,10 @@ output "peer_vpc_route_table" {
 
 output "deprecation_notice" {
   description = "This output is used for deprecation notices"
-  value       = "WARNING! Variable `create_peering` will be deprecated in the next release for Terraform 0.11.x"
+  value       = "WARNING! Variable `create_peering` will be deprecated in the upcoming releases for Terraform 0.11.x"
+}
+
+output "deprecation_notice_1" {
+  description = "This output is used for deprecation notices"
+  value       = "WARNING! Variable `peer_account_id` will be deprecated in the upcoming releases for Terraform 0.11.x"
 }
