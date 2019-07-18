@@ -11,7 +11,6 @@ module "single_account_single_region_options" {
   this_vpc_id = var.this_vpc_id
   peer_vpc_id = var.peer_vpc_id
 
-  create_peering      = true
   auto_accept_peering = true
 
   // Peering options for requester
