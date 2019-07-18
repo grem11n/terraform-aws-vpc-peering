@@ -21,7 +21,6 @@ before_install:
 script:
   - terraform init
   - terraform fmt -check=true
-  - terraform validate -check-variables=false
   - dep ensure -vendor-only
   - echo 'package main' > main.go
   - go test -v -timeout=30m ./...
