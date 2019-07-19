@@ -1,6 +1,26 @@
 Unreleased
 ----
 
+* Tests for cross-account / cross-region peering configuration
+* Mark variable `peer_account_id` for deprecation
+
+v2.1.0
+----
+
+* Fix workaround for inter-region peering. See: [this issue](https://github.com/terraform-providers/terraform-provider-aws/issues/6730)
+* Tests for different peering scenarios
+* Docs and examples updates
+
+v1.2.0
+----
+
+* Create a test case for a single account, single region peering
+* Add example configuration for a single account, single region peering, which is tested
+* Updated README
+* Marked value `create_peering` for deprecation
+* Added test for cross-region peering in the same AWS account
+* Fixed cross-region peering for TF < 0.12 version
+
 v1.1.0
 ----
 
