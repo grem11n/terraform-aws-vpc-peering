@@ -1,10 +1,7 @@
 AWS VPC Peering Connection Module
 =================================
 
-| Branch           | Build Status                                                                                                                                                |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Master**       | [![Build Status](https://travis-ci.org/grem11n/terraform-aws-vpc-peering.svg?branch=master)](https://travis-ci.org/grem11n/terraform-aws-vpc-peering)       |
-| **terraform011** | [![Build Status](https://travis-ci.org/grem11n/terraform-aws-vpc-peering.svg?branch=terraform011)](https://travis-ci.org/grem11n/terraform-aws-vpc-peering) |
+[![Build Status](https://travis-ci.org/grem11n/terraform-aws-vpc-peering.svg?branch=master)](https://travis-ci.org/grem11n/terraform-aws-vpc-peering)
 
 Terraform module, which creates a peering connection between two VPCs and adds routes to the local VPC.
 Routes on the Peer VPC side should be configured separately.
@@ -16,12 +13,12 @@ Preamble
 **Always make sure you pinned the module version!**
 Please, be aware that any new code in `master` may intorduce some regressions. Moreover, sometimes I can easily miss some of them because I personally doen't use all the VPC peering features on daily basis.
 
-Terraform versions
+Terraform versions / Contributions
 ----
 
-Terraform 0.12. Pin module version to `~> v2.x.x`. Submit pull-requests to `master` branch.
+Terraform 0.12. Pin module version to `~> v2.0`. Submit pull-requests to `master` branch.
 
-Terraform 0.11. Pin module version to `~> v1.x.x`. Submit pull-requests to `terraform011` branch.
+Terraform 0.11. Pin module version to `~> v1.0`. Submit pull-requests to `terraform011` branch.
 
 Changelog
 ----
@@ -42,27 +39,28 @@ Usage
 -----
 
 ### Examples
-Sample configuration is located in [examples](examples/) directory. There are not many of them right now, but I'll add more soon.
+Sample configuration is located in [examples](examples/) directory.
 
 ### Single Region Peering
 **Notice**: You need to declare both providers even with single region peering.
 
-```hc1
-module "vpc_single_region_peering" {
-  source = "./terraform-aws-vpc-peering"
+```
+module "single_account_single_region" {
+  source = "../../"
 
   providers = {
-    aws.this = "aws"
-    aws.peer = "aws"
+    aws.this = aws
+    aws.peer = aws
   }
 
-  this_vpc_id             = "vpc-00000000"
-  peer_vpc_id             = "vpc-11111111"
-  auto_accept_peering     = true
+  this_vpc_id = var.this_vpc_id
+  peer_vpc_id = var.peer_vpc_id
+
+  auto_accept_peering = true
 
   tags = {
-    Name        = "my-peering-connection"
-    Environment = "prod"
+    Name        = "tf-single-account-single-region"
+    Environment = "Test"
   }
 }
 ```
@@ -73,29 +71,39 @@ module "vpc_single_region_peering" {
   source = "./terraform-aws-vpc-peering"
 
   providers = {
-    aws.this = "aws"
-    aws.peer = "aws"
+    aws.this = aws
+    aws.peer = aws
   }
 
+  peer_region             = "eu-west-1"
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
+  cross_region_peering    = false
   auto_accept_peering     = true
+  peering_id              = "pcx-00000000"
+
 }
 ```
 
-### Cross Region Peering
+### Cross Region Peering / Cross Account Peering
+
+In order to setup cross-region or cross-account peering connection, you must configure `providers` for Terraform. You can find an example [here](examples/multi-account-multi-region).
+
+[Medium post](https://medium.com/@bonya/terraform-managing-resources-in-multiple-aws-accounts-c13015b89fce), which might be useful.
 
 ```hc1
 module "vpc_cross_region_peering" {
   source = "github.com/grem11n/terraform-aws-vpc-peering?ref=cross-region-peering"
 
   providers = {
-    aws.this = "aws.src"
-    aws.peer = "aws.dst"
+    aws.this = aws.src
+    aws.peer = aws.dst
   }
 
+  peer_region             = "us-east-1"
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
+  cross_region_peering    = true
   auto_accept_peering     = true
 
   tags = {
@@ -105,20 +113,11 @@ module "vpc_cross_region_peering" {
 }
 ```
 
-### Cross Account Peering
-In order to make a cross-account peering connection, you must setup both `owner` and `peer` providers accordingly. Also, you have to provide a valid ID of the peer account. Example:
+Testing
+----
 
-```hc1
-providers = {
-  aws.this = "main" // Alias to the main AWS account
-  aws.peer = "peer" // Alias to the peer AWS account
-}
-
-```
-
-Examples
---------
-Complete example is shown above
+This module is tested with [Terratest](https://github.com/gruntwork-io/terratest)
+You can find existing tests in the [test/](test/) directory.
 
 Authors
 -------
