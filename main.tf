@@ -1,12 +1,3 @@
-# Providers are required because of cross-region
-provider "aws" {
-  alias = "this"
-}
-
-provider "aws" {
-  alias = "peer"
-}
-
 # Local Values required for inter-region peering workaround
 # See https://github.com/terraform-providers/terraform-provider-aws/issues/6730
 locals {

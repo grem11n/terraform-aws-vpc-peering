@@ -92,15 +92,50 @@ In order to setup cross-region or cross-account peering connection, you must con
 [Medium post](https://medium.com/@bonya/terraform-managing-resources-in-multiple-aws-accounts-c13015b89fce), which might be useful.
 
 ```hc1
+provider "aws" {
+  alias      = "this"
+  region     = "us-east-1"
+  access_key = var.aws_this_access_key
+  secret_key = var.aws_this_secret_key
+}
+
+provider "aws" {
+  alias      = "peer"
+  region     = "us-west-1"
+  access_key = var.aws_peer_access_key
+  secret_key = var.aws_peer_secret_key
+}
+
+# # if you have ~/.aws/credentials as below
+# [this_account]
+# region                = ap-southeast-2
+# aws_secret_access_key = xxxx
+# aws_access_key_id     = xxxx
+# 
+# [peer_account]
+# region                = ap-southeast-2
+# aws_secret_access_key = xxxx
+# aws_access_key_id     = xxxx
+# 
+# you can adjust to 
+# 
+# provider "aws" {
+#   alias      = "this"
+#   region     = "us-east-1"
+#   profile    = "this_account"
+# }
+# 
+# provider "aws" {
+#   alias      = "peer"
+#   region     = "us-west-1"
+#   profile    = "peer_account"
+# }
+
+
 module "vpc_cross_region_peering" {
-  source = "github.com/grem11n/terraform-aws-vpc-peering?ref=cross-region-peering"
+  source = "github.com/grem11n/terraform-aws-vpc-peering?ref=v2.1.0"
 
-  providers = {
-    aws.this = aws.src
-    aws.peer = aws.dst
-  }
-
-  peer_region             = "us-east-1"
+  peer_region             = "eu-west-1"
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
   cross_region_peering    = true
