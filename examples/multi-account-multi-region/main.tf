@@ -2,6 +2,11 @@
 module "multi_account_multi_region" {
   source = "../../"
 
+  providers = {
+    aws.this = aws.this
+    aws.peer = aws.peer
+  }
+
   this_vpc_id = var.this_vpc_id
   peer_vpc_id = var.peer_vpc_id
 
