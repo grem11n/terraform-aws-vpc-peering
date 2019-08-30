@@ -114,7 +114,7 @@ module "vpc_cross_region_peering" {
     aws.peer = aws.peer
   }
 
-  peer_region             = "eu-west-1"
+  peer_region             = "us-east-1"
   this_vpc_id             = "vpc-00000000"
   peer_vpc_id             = "vpc-11111111"
   cross_region_peering    = true
