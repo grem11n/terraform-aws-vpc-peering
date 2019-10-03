@@ -7,6 +7,13 @@ provider "aws" {
   alias = "peer"
 }
 
+# Randomize tags
+resource "random_pet" "tag_suffix" {
+  keepers = {
+    vpc_peering_connection_id = "${aws_vpc_peering_connection.this.id}"
+  }
+}
+
 ##########################
 # VPC peering connection #
 ##########################
@@ -24,9 +31,9 @@ resource "aws_vpc_peering_connection" "this" {
 ######################################
 resource "aws_vpc_peering_connection_accepter" "peer_accepter" {
   provider                  = "aws.peer"
-  vpc_peering_connection_id = "${aws_vpc_peering_connection.this.id}"
+  vpc_peering_connection_id = "${random_pet.tag_suffix.keepers.vpc_peering_connection_id}"
   auto_accept               = "${var.auto_accept_peering}"
-  tags                      = "${merge(var.tags, map("Side", "Accepter"))}"
+  tags                      = "${merge(var.tags, map("Side", "Accepter-${random_pet.tag_suffix.id}"))}"
 }
 
 #######################
