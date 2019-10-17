@@ -1,6 +1,12 @@
 ---
 name: Test Peering
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+      - terraform011
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
 
 jobs:
   build:
