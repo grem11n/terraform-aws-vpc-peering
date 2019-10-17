@@ -1,4 +1,20 @@
 // Variables
+variable "aws_this_access_key" {
+  description = "AWS Access Key for requester account"
+}
+
+variable "aws_this_secret_key" {
+  description = "AWS Secret Key for requester account"
+}
+
+variable "aws_peer_access_key" {
+  description = "AWS Access Key for accepter account"
+}
+
+variable "aws_peer_secret_key" {
+  description = "AWS Secret Key for accepter account"
+}
+
 variable "this_subnets" {
   description = "Subnet list for _this_ VPC"
   type        = "list"
@@ -20,5 +36,5 @@ variable "azs_this" {
 variable "azs_peer" {
   description = "Availability Zones for accepter VPC"
   type        = "list"
-  default     = ["us-west-1a", "us-west-1c"]
+  default     = ["us-west-1b", "us-west-1c"]
 }
