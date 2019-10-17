@@ -1,5 +1,5 @@
 ---
-name: Test Peering
+name: terraform-aws-vpc-peering
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Tets Peering
+    name: terratest
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go
@@ -36,11 +36,6 @@ jobs:
           sudo chmod +x /tmp/dep &&
           sudo mv /tmp/dep /usr/local/bin/dep &&
           touch Makefile
-
-      - name: Check Format
-        run: >
-          terraform init &&
-          terraform fmt -check=true
 
       - name: Terratest
         env:
