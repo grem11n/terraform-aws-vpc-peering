@@ -1,0 +1,67 @@
+---
+name: terraform-aws-vpc-peering
+on:
+  push:
+    branches:
+      - master
+      - terraform011
+      - gh-actions-tf11
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+  terraform-fmt:
+    name: terraform-fmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Install Build Dependencies
+        env:
+          TF_VERSION: "0.11.14"
+        run: >
+          wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -O /tmp/terraform.zip &&
+          sudo unzip -d /tmp/ /tmp/terraform.zip &&
+          sudo mv /tmp/terraform /usr/local/bin/
+
+      - name: Check Format
+        run: >
+          terraform init &&
+          terraform fmt -check=true
+  terratest:
+    name: terratest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.12.4
+
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Install Build Dependencies
+        env:
+          TF_VERSION: "0.11.14"
+        run: >
+          wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -O /tmp/terraform.zip &&
+          sudo unzip -d /tmp/ /tmp/terraform.zip &&
+          sudo mv /tmp/terraform /usr/local/bin/
+
+      - name: Terratest
+        env:
+          GOPATH: /home/runner/work/terraform-aws-vpc-peering/go
+          TF_VAR_aws_peer_access_key: ${{ secrets.TF_VAR_aws_peer_access_key }}
+          TF_VAR_aws_peer_secret_key: ${{ secrets.TF_VAR_aws_peer_secret_key }}
+          TF_VAR_aws_this_access_key: ${{ secrets.TF_VAR_aws_this_access_key }}
+          TF_VAR_aws_this_secret_key: ${{ secrets.TF_VAR_aws_this_secret_key }}
+        run: >
+          go mod init &&
+          go mod tidy &&
+          echo 'package main' > main.go &&
+          go test -v -timeout=30m ./...

@@ -6,7 +6,8 @@
 .terraform/
 
 # go deps
-vendor/
+go.mod
+go.sum
 
 # Tests directory
 .test-data/
