@@ -7,6 +7,11 @@ provider "aws" {
   alias = "peer"
 }
 
+locals {
+  peer_region            = "${var.peer_region == "" ? data.aws_region.peer.name : var.peer_region}"
+  same_acount_and_region = "${data.aws_region.this.name == local.peer_region && data.aws_caller_identity.this.account_id == data.aws_caller_identity.peer.account_id}"
+}
+
 ##########################
 # VPC peering connection #
 ##########################
@@ -15,8 +20,8 @@ resource "aws_vpc_peering_connection" "this" {
   peer_owner_id = "${data.aws_caller_identity.peer.account_id}"
   peer_vpc_id   = "${var.peer_vpc_id}"
   vpc_id        = "${var.this_vpc_id}"
-  peer_region   = "${var.peer_region == "" ? data.aws_region.this.name : var.peer_region}"
-  tags          = "${var.tags}"
+  peer_region   = "${local.peer_region}"
+  tags          = "${merge(var.tags, map("Side", local.same_acount_and_region ? "Both" : "Requester"))}"
 }
 
 ######################################
@@ -26,7 +31,7 @@ resource "aws_vpc_peering_connection_accepter" "peer_accepter" {
   provider                  = "aws.peer"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.this.id}"
   auto_accept               = "${var.auto_accept_peering}"
-  tags                      = "${merge(var.tags, map("Side", "Accepter"))}"
+  tags                      = "${merge(var.tags, map("Side", local.same_acount_and_region ? "Both" : "Accepter"))}"
 }
 
 #######################
