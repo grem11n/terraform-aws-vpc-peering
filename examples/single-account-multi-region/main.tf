@@ -3,8 +3,8 @@ module "single_account_multi_region" {
   source = "../../"
 
   providers = {
-    aws.this = "aws.us-east-1"
-    aws.peer = "aws.us-west-1"
+    aws.this = "aws.this"
+    aws.peer = "aws.peer"
   }
 
   this_vpc_id = "${var.this_vpc_id}"
