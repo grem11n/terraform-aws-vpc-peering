@@ -1,12 +1,10 @@
 # Providers are required because of cross-region
 provider "aws" {
-  alias  = "this"
-	region = "${local.this_region}"
+  alias = "this"
 }
 
 provider "aws" {
-  alias  = "peer"
-	region = "${local.peer_region}"
+  alias = "peer"
 }
 
 locals {
