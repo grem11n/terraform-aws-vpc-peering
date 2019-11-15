@@ -9,7 +9,23 @@ on:
     types: [opened, edited, reopened, synchronize]
 
 jobs:
-  build:
+  terraform-static:
+    name: terraform-fmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@master
+      - name: 'Terraform Format'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: 'fmt'
+          tf_actions_working_dir: '.'
+          tf_actions_comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  terratest:
     name: terratest
     runs-on: ubuntu-latest
     steps:
@@ -22,21 +38,14 @@ jobs:
         uses: actions/checkout@v1
         with:
           fetch-depth: 1
-          path: go/src/github.com/grem11n/terraform-aws-vpc-peering
 
       - name: Install Build Dependencies
         env:
-          TF_VERSION: "0.12.4"
-          DEP_VERSION: "v0.5.4"
+          TF_VERSION: "0.12.13"
         run: >
           wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -O /tmp/terraform.zip &&
           sudo unzip -d /tmp/ /tmp/terraform.zip &&
-          sudo mv /tmp/terraform /usr/local/bin/ &&
-          wget https://github.com/golang/dep/releases/download/${DEP_VERSION}/dep-linux-amd64 -O /tmp/dep &&
-          sudo chmod +x /tmp/dep &&
-          sudo mv /tmp/dep /usr/local/bin/dep &&
-          touch Makefile
-
+          sudo mv /tmp/terraform /usr/local/bin/
       - name: Terratest
         env:
           GOPATH: /home/runner/work/terraform-aws-vpc-peering/go
@@ -45,6 +54,7 @@ jobs:
           TF_VAR_aws_this_access_key: ${{ secrets.TF_VAR_aws_this_access_key }}
           TF_VAR_aws_this_secret_key: ${{ secrets.TF_VAR_aws_this_secret_key }}
         run: >
-          dep ensure -vendor-only &&
+          go mod init &&
+          go mod tidy &&
           echo 'package main' > main.go &&
           go test -v -timeout=30m ./...
