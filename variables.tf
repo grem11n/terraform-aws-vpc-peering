@@ -15,7 +15,7 @@ variable "auto_accept_peering" {
 
 variable "tags" {
   description = "Tags: map"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
