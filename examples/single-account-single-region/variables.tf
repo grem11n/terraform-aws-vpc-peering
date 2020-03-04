@@ -11,3 +11,11 @@ variable "aws_this_access_key" {
 variable "aws_this_secret_key" {
   description = "AWS Secret Key for requester account"
 }
+
+variable "aws_peer_access_key" {
+  description = "AWS Access Key for accepter account"
+}
+
+variable "aws_peer_secret_key" {
+  description = "AWS Secret Key for accepter account"
+}
