@@ -4,8 +4,8 @@ module "single_account_single_region" {
   source = "../../"
 
   providers = {
-    aws.this = "aws"
-    aws.peer = "aws"
+    aws.this = aws
+    aws.peer = aws
   }
 
   this_vpc_id = var.this_vpc_id
