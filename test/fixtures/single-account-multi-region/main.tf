@@ -1,7 +1,7 @@
 // Fixtures
 // VPC
 resource "aws_vpc" "this" {
-  provider   = "aws.this"
+  provider   = aws.this
   cidr_block = "172.20.0.0/16"
 
   tags = {
@@ -11,7 +11,7 @@ resource "aws_vpc" "this" {
 }
 
 resource "aws_vpc" "peer" {
-  provider   = "aws.peer"
+  provider   = aws.peer
   cidr_block = "172.21.0.0/16"
 
   tags = {
@@ -22,7 +22,7 @@ resource "aws_vpc" "peer" {
 
 // Route Tables
 resource "aws_route_table" "this" {
-  provider = "aws.this"
+  provider = aws.this
   count    = length(var.this_subnets)
   vpc_id   = aws_vpc.this.id
 
@@ -33,7 +33,7 @@ resource "aws_route_table" "this" {
 }
 
 resource "aws_route_table" "peer" {
-  provider = "aws.peer"
+  provider = aws.peer
   count    = length(var.peer_subnets)
   vpc_id   = aws_vpc.peer.id
 
@@ -45,7 +45,7 @@ resource "aws_route_table" "peer" {
 
 // Subnets
 resource "aws_subnet" "this" {
-  provider          = "aws.this"
+  provider          = aws.this
   count             = length(var.azs_this)
   vpc_id            = aws_vpc.this.id
   cidr_block        = var.this_subnets[count.index]
@@ -58,7 +58,7 @@ resource "aws_subnet" "this" {
 }
 
 resource "aws_subnet" "peer" {
-  provider          = "aws.peer"
+  provider          = aws.peer
   count             = length(var.azs_peer)
   vpc_id            = aws_vpc.peer.id
   cidr_block        = var.peer_subnets[count.index]
