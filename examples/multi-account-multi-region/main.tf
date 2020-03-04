@@ -13,7 +13,7 @@ module "multi_account_multi_region" {
   auto_accept_peering = true
 
   tags = {
-    Name        = "tf-single-account-multi-region"
+    Name        = "tf-multi-account-multi-region"
     Environment = "Test"
   }
 }
