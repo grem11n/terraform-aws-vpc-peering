@@ -34,3 +34,29 @@ data "aws_route_tables" "peer_vpc_rts" {
   provider = aws.peer
   vpc_id   = var.peer_vpc_id
 }
+
+// get subnets info
+data "aws_subnet" "this" {
+  count    = length(var.this_subnets_ids)
+  provider = aws.this
+  id       = var.this_subnets_ids[count.index]
+}
+
+data "aws_subnet" "peer" {
+  count    = length(var.peer_subnets_ids)
+  provider = aws.peer
+  id       = var.peer_subnets_ids[count.index]
+}
+
+// get info for only those route tables associated with the given subnets
+data "aws_route_table" "this_subnet_rts" {
+  count = length(var.this_subnets_ids)
+  provider = aws.this
+  subnet_id = var.this_subnets_ids[count.index]
+}
+
+data "aws_route_table" "peer_subnet_rts" {
+  count     = length(var.peer_subnets_ids)
+  provider  = aws.peer
+  subnet_id = var.peer_subnets_ids[count.index]
+}

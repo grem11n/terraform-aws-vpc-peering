@@ -57,3 +57,27 @@ variable "this_link_to_local_classic" {
   type        = bool
   default     = false
 }
+
+variable "from_this" {
+  description = "If traffic TO peer vpc (from this) should be allowed"
+  type        = bool
+  default     = true
+}
+
+variable "from_peer" {
+  description = "If traffic FROM peer vpc (to this) should be allowed"
+  type        = bool
+  default     = true
+}
+
+variable "peer_subnets_ids" {
+  description = "If communication can only go to some specific subnets of peer vpc. If empty whole vpc cidr is allowed"
+  type        = list(string)
+  default     = []
+}
+
+variable "this_subnets_ids" {
+  description = "If communication can only go to some specific subnets of this vpc. If empty whole vpc cidr is allowed"
+  type        = list(string)
+  default     = []
+}
