@@ -1,3 +1,4 @@
+// Get account and region info
 data "aws_caller_identity" "this" {
   provider = aws.this
 }
@@ -12,6 +13,7 @@ data "aws_region" "peer" {
   provider = aws.peer
 }
 
+// Get vpc info
 data "aws_vpc" "this_vpc" {
   provider = aws.this
   id       = var.this_vpc_id
@@ -22,6 +24,7 @@ data "aws_vpc" "peer_vpc" {
   id       = var.peer_vpc_id
 }
 
+// Get all route tables from vpcs
 data "aws_route_tables" "this_vpc_rts" {
   provider = aws.this
   vpc_id   = var.this_vpc_id

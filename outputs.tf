@@ -1,8 +1,3 @@
-locals {
-  this_vpc_route_tables = data.aws_route_tables.this_vpc_rts.ids
-  peer_vpc_route_tables = data.aws_route_tables.peer_vpc_rts.ids
-}
-
 output "aws_vpc_peering_connection" {
   value = aws_vpc_peering_connection.this
 }
