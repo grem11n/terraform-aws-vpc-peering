@@ -58,5 +58,5 @@ output "requester_routes" {
 
 output "accepter_routes" {
   description = "Routes to the accepter VPC"
-  value = tolist(aws_route.peer_routes.*)
+  value       = tolist(aws_route.peer_routes.*)
 }
