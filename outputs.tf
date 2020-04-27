@@ -52,11 +52,11 @@ output "requester_options" {
 }
 
 output "requester_routes" {
-  description = "The possible routes and subnets from the requester VPC"
-  value       = tolist(aws_route.this_routes_requester.*)
+  description = "Routes from the requester VPC"
+  value       = tolist(aws_route.this_routes.*)
 }
 
 output "accepter_routes" {
-  description = "The possible routes and subnets to the accepter VPC"
-  value = tolist(aws_route.peer_routes_accepter.*)
+  description = "Routes to the accepter VPC"
+  value = tolist(aws_route.peer_routes.*)
 }
