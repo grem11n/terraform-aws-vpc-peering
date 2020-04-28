@@ -46,8 +46,8 @@ data "aws_subnet" "peer" {
 
 # get info for only those route tables associated with the given subnets
 data "aws_route_table" "this_subnet_rts" {
-  count = length(var.this_subnets_ids)
-  provider = aws.this
+  count     = length(var.this_subnets_ids)
+  provider  = aws.this
   subnet_id = var.this_subnets_ids[count.index]
 }
 data "aws_route_table" "peer_subnet_rts" {
