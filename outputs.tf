@@ -1,8 +1,3 @@
-locals {
-  this_vpc_route_tables = data.aws_route_tables.this_vpc_rts.ids
-  peer_vpc_route_tables = data.aws_route_tables.peer_vpc_rts.ids
-}
-
 output "aws_vpc_peering_connection" {
   value = aws_vpc_peering_connection.this
 }
@@ -10,7 +5,6 @@ output "aws_vpc_peering_connection" {
 output "aws_vpc_peering_connection_accepter" {
   value = aws_vpc_peering_connection_accepter.peer_accepter
 }
-
 
 output "vpc_peering_id" {
   description = "Peering connection ID"
@@ -57,12 +51,12 @@ output "requester_options" {
   value       = aws_vpc_peering_connection_accepter.peer_accepter.requester
 }
 
-output "this_vpc_route_tables" {
-  description = "Private route tables"
-  value       = tolist(data.aws_route_tables.this_vpc_rts.ids)
+output "requester_routes" {
+  description = "Routes from the requester VPC"
+  value       = tolist(aws_route.this_routes.*)
 }
 
-output "peer_vpc_route_table" {
-  description = "Public route tables"
-  value       = tolist(data.aws_route_tables.peer_vpc_rts.ids)
+output "accepter_routes" {
+  description = "Routes to the accepter VPC"
+  value       = tolist(aws_route.peer_routes.*)
 }
