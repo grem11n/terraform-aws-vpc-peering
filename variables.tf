@@ -48,3 +48,8 @@ variable "this_link_to_local_classic" {
   description = "Indicates whether a local VPC can communicate with a ClassicLink connection in the this VPC over the VPC Peering Connection"
   default     = false
 }
+
+variable "create_vpc_peering" {
+  description = "A flag to enable or disable the creation of the VPC peering."
+  default     = true
+}

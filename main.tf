@@ -20,6 +20,8 @@ locals {
 # VPC peering connection #
 ##########################
 resource "aws_vpc_peering_connection" "this" {
+  count = var.create_vpc_peering ? 1 : 0
+
   provider      = aws.this
   peer_owner_id = data.aws_caller_identity.peer.account_id
   peer_vpc_id   = var.peer_vpc_id
@@ -32,6 +34,8 @@ resource "aws_vpc_peering_connection" "this" {
 # VPC peering accepter configuration #
 ######################################
 resource "aws_vpc_peering_connection_accepter" "peer_accepter" {
+  count = var.create_vpc_peering ? 1 : 0
+
   provider                  = aws.peer
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id
   auto_accept               = var.auto_accept_peering
@@ -42,6 +46,8 @@ resource "aws_vpc_peering_connection_accepter" "peer_accepter" {
 # VPC peering options #
 #######################
 resource "aws_vpc_peering_connection_options" "this" {
+  count = var.create_vpc_peering ? 1 : 0
+
   provider                  = aws.this
   vpc_peering_connection_id = aws_vpc_peering_connection_accepter.peer_accepter.id
 
@@ -53,6 +59,8 @@ resource "aws_vpc_peering_connection_options" "this" {
 }
 
 resource "aws_vpc_peering_connection_options" "accepter" {
+  count = var.create_vpc_peering ? 1 : 0
+
   provider                  = aws.peer
   vpc_peering_connection_id = aws_vpc_peering_connection_accepter.peer_accepter.id
 
@@ -67,8 +75,9 @@ resource "aws_vpc_peering_connection_options" "accepter" {
 # This VPC Routes #
 ###################
 resource "aws_route" "this_routes_region" {
+  count = var.create_vpc_peering && length(data.aws_route_tables.this_vpc_rts.ids) > 0 ? length(data.aws_route_tables.this_vpc_rts.ids) : 0
+
   provider                  = aws.this
-  count                     = length(data.aws_route_tables.this_vpc_rts.ids)
   route_table_id            = tolist(data.aws_route_tables.this_vpc_rts.ids)[count.index]
   destination_cidr_block    = data.aws_vpc.peer_vpc.cidr_block
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id
@@ -78,8 +87,9 @@ resource "aws_route" "this_routes_region" {
 # Peer VPC Routes #
 ###################
 resource "aws_route" "peer_routes_region" {
+  count = var.create_vpc_peering && length(data.aws_route_tables.peer_vpc_rts.ids) > 0 ? length(data.aws_route_tables.peer_vpc_rts.ids) : 0
+
   provider                  = aws.peer
-  count                     = length(data.aws_route_tables.peer_vpc_rts.ids)
   route_table_id            = tolist(data.aws_route_tables.peer_vpc_rts.ids)[count.index]
   destination_cidr_block    = data.aws_vpc.this_vpc.cidr_block
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id
