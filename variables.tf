@@ -81,3 +81,8 @@ variable "this_subnets_ids" {
   type        = list(string)
   default     = []
 }
+
+variable "region" {
+  description = "Provider region"
+  type        = string
+}
