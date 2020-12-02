@@ -1,14 +1,3 @@
-# Providers are required because of cross-region
-provider "aws" {
-  alias  = "this"
-  region = var.this_region
-}
-
-provider "aws" {
-  alias  = "peer"
-  region = local.peer_region_final
-}
-
 ##########################
 # VPC peering connection #
 ##########################
