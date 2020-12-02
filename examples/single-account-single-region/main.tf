@@ -8,6 +8,9 @@ module "single_account_single_region" {
     aws.peer = aws
   }
 
+  // For the single-region peering you only need to define this_region
+  this_region = "us-east-1"
+
   this_vpc_id = var.this_vpc_id
   peer_vpc_id = var.peer_vpc_id
 

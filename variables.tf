@@ -82,7 +82,13 @@ variable "this_subnets_ids" {
   default     = []
 }
 
-variable "region" {
-  description = "Provider region"
+variable "this_region" {
+  description = "Requester VPC provider region"
+  type        = string
+}
+
+variable "peer_region" {
+  description = "Accepter VPC provider region"
+  default     = ""
   type        = string
 }
