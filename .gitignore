@@ -13,3 +13,5 @@ vendor/
 
 # Workaround for go test
 main.go
+go.mod
+go.sum

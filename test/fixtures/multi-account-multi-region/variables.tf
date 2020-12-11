@@ -24,7 +24,7 @@ variable "this_subnets" {
 variable "peer_subnets" {
   description = "Subnet list for _peer_ VPC"
   type        = list(string)
-  default     = ["172.21.0.0/24", "172.21.1.0/24"]
+  default     = ["172.21.0.0/24", "172.21.1.0/24", "172.21.2.0/24"]
 }
 
 variable "azs_this" {
@@ -36,5 +36,5 @@ variable "azs_this" {
 variable "azs_peer" {
   description = "Availability Zones for accepter VPC"
   type        = list(string)
-  default     = ["us-west-1b", "us-west-1c"]
+  default     = ["us-east-2a", "us-east-2b", "us-east-2c"]
 }
