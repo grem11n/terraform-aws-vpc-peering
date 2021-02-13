@@ -81,3 +81,15 @@ variable "this_subnets_ids" {
   type        = list(string)
   default     = []
 }
+
+variable "this_rts_ids" {
+  description = "Allows to explicitly specify route tables for this VPC"
+  type        = list(string)
+  default     = []
+}
+
+variable "peer_rts_ids" {
+  description = "Allows to explicitly specify route tables for peer VPC"
+  type        = list(string)
+  default     = []
+}

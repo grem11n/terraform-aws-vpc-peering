@@ -12,13 +12,16 @@ jobs:
   terraform-static:
     name: terraform-fmt
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        terraform: ['0.12.30', '0.13.6', '0.14.6']
     steps:
       - name: 'Checkout'
         uses: actions/checkout@master
       - name: 'Terraform Format'
         uses: hashicorp/terraform-github-actions@master
         with:
-          tf_actions_version: 0.12.21
+          tf_actions_version: ${{ matrix.terraform }}
           tf_actions_subcommand: 'fmt'
           tf_actions_working_dir: '.'
           tf_actions_comment: true
@@ -28,11 +31,15 @@ jobs:
   terratest:
     name: terratest
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        terraform: ['0.13.6']
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2
         with:
-          go-version: 1.13.8
+          go-version: '1.15'
 
       - name: Checkout
         uses: actions/checkout@v1
@@ -41,11 +48,12 @@ jobs:
 
       - name: Install Build Dependencies
         env:
-          TF_VERSION: "0.12.21"
+          TF_VERSION: ${{ matrix.terraform }}
         run: >
           wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -O /tmp/terraform.zip &&
           sudo unzip -d /tmp/ /tmp/terraform.zip &&
           sudo mv /tmp/terraform /usr/local/bin/
+
       - name: Terratest
         env:
           GOPATH: /home/runner/work/terraform-aws-vpc-peering/go
