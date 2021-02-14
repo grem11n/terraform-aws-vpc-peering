@@ -34,7 +34,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        terraform: ['0.13.6']
+        terraform: ['0.13.6', '0.14.6']
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2
