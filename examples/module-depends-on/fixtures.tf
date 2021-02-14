@@ -1,7 +1,6 @@
 // Fixtures
-// VPC
+// VPCs
 resource "aws_vpc" "this" {
-  provider   = aws.this
   cidr_block = "172.20.0.0/16"
 
   tags = {
@@ -11,7 +10,6 @@ resource "aws_vpc" "this" {
 }
 
 resource "aws_vpc" "peer" {
-  provider   = aws.peer
   cidr_block = "172.21.0.0/16"
 
   tags = {
@@ -22,9 +20,8 @@ resource "aws_vpc" "peer" {
 
 // Route Tables
 resource "aws_route_table" "this" {
-  provider = aws.this
-  count    = length(var.this_subnets)
-  vpc_id   = aws_vpc.this.id
+  count  = length(var.this_subnets)
+  vpc_id = aws_vpc.this.id
 
   tags = {
     Name        = "This VPC RT"
@@ -33,9 +30,8 @@ resource "aws_route_table" "this" {
 }
 
 resource "aws_route_table" "peer" {
-  provider = aws.peer
-  count    = length(var.peer_subnets)
-  vpc_id   = aws_vpc.peer.id
+  count  = length(var.peer_subnets)
+  vpc_id = aws_vpc.peer.id
 
   tags = {
     Name        = "Peer VPC RT"
@@ -45,11 +41,10 @@ resource "aws_route_table" "peer" {
 
 // Subnets
 resource "aws_subnet" "this" {
-  provider          = aws.this
-  count             = length(var.azs_this)
+  count             = length(var.this_subnets)
   vpc_id            = aws_vpc.this.id
   cidr_block        = var.this_subnets[count.index]
-  availability_zone = element(var.azs_this, count.index)
+  availability_zone = element(var.azs, count.index)
 
   tags = {
     Name        = "This VPC Subnet"
@@ -58,14 +53,13 @@ resource "aws_subnet" "this" {
 }
 
 resource "aws_subnet" "peer" {
-  provider          = aws.peer
-  count             = length(var.azs_peer)
+  count             = length(var.peer_subnets)
   vpc_id            = aws_vpc.peer.id
   cidr_block        = var.peer_subnets[count.index]
-  availability_zone = element(var.azs_peer, count.index)
+  availability_zone = element(var.azs, count.index)
 
   tags = {
-    Name        = "Peer VPC Subnet"
+    Name        = "This VPC Subnet"
     Environment = "Test"
   }
 }

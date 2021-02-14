@@ -1,8 +1,7 @@
-# Compiled files
+# Terraform files
 *.tfstate
 *.tfstate.backup
-
-# Module directory
+**/.terraform.lock.hcl
 .terraform/
 
 # go deps
@@ -13,3 +12,5 @@ vendor/
 
 # Workaround for go test
 main.go
+go.mod
+go.sum
