@@ -6,8 +6,6 @@ module "module_depends_on" {
   depends_on = [
     aws_route_table.this,
     aws_route_table.peer,
-    aws_subnet.this,
-    aws_subnet.peer,
   ]
 
   providers = {
