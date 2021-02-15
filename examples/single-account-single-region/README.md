@@ -2,9 +2,15 @@
 
 This is a basic configuration example, which creates a peering connection between VPCs in a single region within the same AWS account.
 
+**Notice**: You need to declare both providers even with single region peering.
+
 ## Code Sample
 
 ```
+provider "aws" {
+  region     = "us-east-1"
+}
+
 module "single_account_single_region" {
   source = "../../"
 
@@ -34,13 +40,3 @@ terraform init
 terraform plan
 terraform apply
 ```
-
-## Testing
-
-This configuration is tested with [Terratest](https://github.com/gruntwork-io/terratest).
-
-You can find tests in [`test/`](../../test) directory.
-
-## Note
-
-Running the resources in AWS may cost money! Make sure to clean up afterwards. You can use `terraform destroy` to delete the resources spawned by this example.

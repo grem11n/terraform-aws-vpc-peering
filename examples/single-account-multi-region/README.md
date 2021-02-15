@@ -5,6 +5,16 @@ This example creates a peering connection between VPCs in different regions, whi
 ## Sample Code
 
 ```
+provider "aws" {
+  alias      = "this"
+  region     = "us-east-1"
+}
+
+provider "aws" {
+  alias      = "peer"
+  region     = "us-east-2"
+}
+
 module "single_account_multi_region" {
   source = "../../"
 
@@ -34,13 +44,3 @@ terraform init
 terraform plan
 terraform apply
 ```
-
-## Testing
-
-This configuration is tested with [Terratest](https://github.com/gruntwork-io/terratest).
-
-You can find tests in [`test/`](../../test) directory.
-
-## Note
-
-Running the resources in AWS may cost money! Make sure to clean up afterwards. You can use `terraform destroy` to delete the resources spawned by this example.

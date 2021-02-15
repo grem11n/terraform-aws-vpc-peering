@@ -1,7 +1,3 @@
-//provider "aws" {
-//  region = "us-east-1"
-//}
-
 provider "aws" {
   alias      = "this"
   region     = "us-east-1"
