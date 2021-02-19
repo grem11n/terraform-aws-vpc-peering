@@ -34,13 +34,13 @@ You can also manage peering options, but you need to run `apply` twice to do tha
 
 ### Examples
 
-Sample configuration is located in [examples](examples/) directory.
+Sample configuration is located in [examples](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/examples) directory.
 
-* [Single account, single region peering](examples/single-account-single-region/README.md)
-* [Single account, single region peering with options defined](examples/single-account-single-region-with-options/README.md)
-* [Single account, cross region peering](examples/single-account-multi-region/README.md)
-* [Cross account, cross region peering](examples/multi-account-multi-region/README.md)
-* [Using depends_on with this module](examples/module-depends-on/README.md)
+* [Single account, single region peering](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/examples/single-account-single-region/README.md)
+* [Single account, single region peering with options defined](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/examples/single-account-single-region-with-options/README.md)
+* [Single account, cross region peering](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/examples/single-account-multi-region/README.md)
+* [Cross account, cross region peering](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/examples/multi-account-multi-region/README.md)
+* [Using depends_on with this module](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/examples/module-depends-on/README.md)
 
 
 ### Simple Peering (single AWS account, same region)
@@ -75,14 +75,14 @@ Changelog is in the [CHANGELOG.md](CHANGELOG.md)
 
 Your contribution to this module is more than welcome!
 
-If you have an idea on how to improve this theme or found a bug feel free to use [GitHub issues](https://github.com/grem11n/hugo-gentoo-theme/issues) to let me know.
+If you have an idea on how to improve this theme or found a bug feel free to use [GitHub issues](https://github.com/grem11n/terraform-aws-vpc-peering/issues) to let me know.
 
 If you want to contribute to this theme, please, fork this repository and create a pull request. For recent versions of Terraform, open a PR against the `master` branch. For Terraform 0.12, please, open a PR against `terraform012` branch. For Terraform 0.11, please, open a PR against `terraform011` branch.
 
 ## Testing
 
 This module is tested with [Terratest](https://github.com/gruntwork-io/terratest)
-You can find existing tests in the [test/](test/) directory.
+You can find existing tests in the [test/](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/test) directory.
 
 Tests require AWS credentials. Since GitHub actions don't share the keys with fork repositories (on purpose), don't mind if tests for your PR failed. I will see it anyways and run them on my own. Alternatively, you can always run tests for your forks with your AWS credentials.
 
@@ -93,4 +93,4 @@ Module managed by [Yurii Rochniak](https://github.com/grem11n)
 [About me](https://grem1.in)
 
 ## License
-Apache 2 Licensed. See [LICENSE](LICENSE.md) for full details.
+Apache 2 Licensed. See [LICENSE](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/LICENSE.md) for full details.
