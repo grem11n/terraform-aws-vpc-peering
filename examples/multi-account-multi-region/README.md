@@ -1,4 +1,4 @@
-# Single Account Multi Region VPC Peering
+# Cross Account Multi Region VPC Peering
 
 This example creates a peering connection between VPCs in different regions which are also located in different AWS accounts.
 
