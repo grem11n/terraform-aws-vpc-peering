@@ -7,7 +7,7 @@ resource "aws_vpc_peering_connection" "this" {
   peer_vpc_id   = var.peer_vpc_id
   vpc_id        = var.this_vpc_id
   peer_region   = data.aws_region.peer.name
-  tags          = merge(var.tags, map("Side", local.same_acount_and_region ? "Both" : "Requester"))
+  tags          = merge(var.tags, tomap({ "Side" = local.same_acount_and_region ? "Both" : "Requester" }))
 }
 
 ######################################
@@ -17,7 +17,7 @@ resource "aws_vpc_peering_connection_accepter" "peer_accepter" {
   provider                  = aws.peer
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id
   auto_accept               = var.auto_accept_peering
-  tags                      = merge(var.tags, map("Side", local.same_acount_and_region ? "Both" : "Accepter"))
+  tags                      = merge(var.tags, tomap({ "Side" = local.same_acount_and_region ? "Both" : "Accepter" }))
 }
 
 #######################
