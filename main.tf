@@ -8,6 +8,11 @@ resource "aws_vpc_peering_connection" "this" {
   vpc_id        = var.this_vpc_id
   peer_region   = data.aws_region.peer.name
   tags          = merge(var.tags, tomap({ "Side" = local.same_acount_and_region ? "Both" : "Requester" }))
+  # hardcoded
+  timeouts {
+    create = "15m"
+    delete = "15m"
+  }
 }
 
 ######################################
