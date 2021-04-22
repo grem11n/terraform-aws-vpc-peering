@@ -5,8 +5,16 @@ on:
     branches:
       - master
       - terraform011
+    paths-ignore:
+      - '**.md'
   pull_request:
-    types: [opened, edited, reopened, synchronize]
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+    paths-ignore:
+      - '**.md'
 
 jobs:
   terraform-static:
