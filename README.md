@@ -14,7 +14,8 @@ These types of resources are supported:
 
 ## Important Notice
 
-\* - There is a bug with applying VPC peering options currently. You can still specify and manage them with this module, but you will need to run `apply` twice.
+* \* - There is a bug with applying VPC peering options currently. You can still specify and manage them with this module, but you will need to run `apply` twice.
+* Version `v3.1.*` supports both Terraform `0.14` and `0.15.0`. However, it throws warnings regarding empty providers deprecation. Provider configuration was changed in Terraform `0.15.0`. Therefore, newer versions would likely be incompatible with Terraform `<=0.15`. So, if you need to use both Terraofmr `0.14` and `0.15` at the same time or you're in the process of migration, please, use `v3.1.*` of this module.
 
 ## Features
 
