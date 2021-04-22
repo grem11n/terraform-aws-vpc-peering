@@ -5,8 +5,16 @@ on:
     branches:
       - master
       - terraform011
+    paths-ignore:
+      - '**.md'
   pull_request:
-    types: [opened, edited, reopened, synchronize]
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+    paths-ignore:
+      - '**.md'
 
 jobs:
   terraform-static:
@@ -14,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['0.14.10', '0.15.0']
+        terraform: ['0.15.0']
     steps:
       - name: 'Checkout'
         uses: actions/checkout@master
@@ -34,7 +42,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        terraform: ['0.14.6', '0.15.0']
+        terraform: ['0.15.0']
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2
