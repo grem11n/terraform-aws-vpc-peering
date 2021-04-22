@@ -11,15 +11,34 @@ type TestCase struct {
 	Name        string
 	FixturesDir string
 	ModuleDir   string
+	Assertion   map[string]interface{}
 }
 
 func TestPeeringActive(t *testing.T) {
+	genericAssertion := map[string]interface{}{
+		"vpc_peering_accept_status": "active",
+	}
+
+	// Terratest presents outputs of any type as strings
+	expectedOptions := `[
+  {
+    "allow_classic_link_to_remote_vpc" = true
+    "allow_remote_vpc_dns_resolution" = true
+    "allow_vpc_to_remote_classic_link" = true
+  },
+]`
+
+	optionsAssertions := map[string]interface{}{
+		"vpc_peering_accept_status": "active",
+		"accepter_options":          expectedOptions,
+	}
+
 	testCases := []TestCase{
-		{"SingleAccountSingleRegion", "./fixtures/single-account-single-region", "../examples/single-account-single-region"},
-		{"SingleAccountSingleRegionWithOptions", "./fixtures/single-account-single-region-with-options", "../examples/single-account-single-region-with-options"},
-		{"SingleAccountMultiRegion", "./fixtures/single-account-multi-region", "../examples/single-account-multi-region"},
-		{"MultiAccountMultiRegion", "./fixtures/multi-account-multi-region", "../examples/multi-account-multi-region"},
-		{"ModuleDependsOn", "", "../examples/module-depends-on"},
+		{"SingleAccountSingleRegion", "./fixtures/single-account-single-region", "../examples/single-account-single-region", genericAssertion},
+		{"SingleAccountSingleRegionWithOptions", "./fixtures/single-account-single-region-with-options", "../examples/single-account-single-region-with-options", optionsAssertions},
+		{"SingleAccountMultiRegion", "./fixtures/single-account-multi-region", "../examples/single-account-multi-region", genericAssertion},
+		{"MultiAccountMultiRegion", "./fixtures/multi-account-multi-region", "../examples/multi-account-multi-region", genericAssertion},
+		{"ModuleDependsOn", "", "../examples/module-depends-on", genericAssertion},
 	}
 
 	for _, tc := range testCases {
@@ -31,8 +50,6 @@ func TestPeeringActive(t *testing.T) {
 
 func terratestRun(tc TestCase, t *testing.T) {
 	var tfVars = make(map[string]interface{})
-	// Assertions
-	expectedPeeringStatus := "active"
 
 	// Check if we need to apply fixtures first
 	if tc.FixturesDir != "" {
@@ -69,9 +86,9 @@ func terratestRun(tc TestCase, t *testing.T) {
 	// Create module resources
 	terraform.InitAndApply(t, moduleTerraformOptions)
 
-	// Retrieve information with `terraform output`
-	actualPeeringStatus := terraform.Output(t, moduleTerraformOptions, "vpc_peering_accept_status")
-
 	// Verify results
-	assert.Equal(t, expectedPeeringStatus, actualPeeringStatus)
+	for output, expectedResult := range tc.Assertion {
+		got := terraform.Output(t, moduleTerraformOptions, output)
+		assert.Equal(t, expectedResult, got)
+	}
 }
