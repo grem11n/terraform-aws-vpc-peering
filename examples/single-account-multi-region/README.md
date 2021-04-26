@@ -7,12 +7,12 @@ This example creates a peering connection between VPCs in different regions, whi
 ```
 provider "aws" {
   alias      = "this"
-  region     = "us-east-1"
+  region     = "eu-west-1"
 }
 
 provider "aws" {
   alias      = "peer"
-  region     = "us-east-2"
+  region     = "eu-central-1"
 }
 
 module "single_account_multi_region" {

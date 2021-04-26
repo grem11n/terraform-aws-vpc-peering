@@ -30,11 +30,11 @@ variable "peer_subnets" {
 variable "azs_this" {
   description = "Availability Zones for requester VPC"
   type        = list(string)
-  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  default     = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
 }
 
 variable "azs_peer" {
   description = "Availability Zones for accepter VPC"
   type        = list(string)
-  default     = ["us-east-2a", "us-east-2b", "us-east-2c"]
+  default     = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
 }
