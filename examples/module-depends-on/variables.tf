@@ -21,5 +21,5 @@ variable "peer_subnets" {
 variable "azs" {
   description = "Availability Zones"
   type        = list(string)
-  default     = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  default     = ["us-west-1a", "us-west-1b", "us-west-1c"]
 }
