@@ -36,5 +36,5 @@ variable "azs_this" {
 variable "azs_peer" {
   description = "Availability Zones for accepter VPC"
   type        = list(string)
-  default     = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
+  default     = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
 }
