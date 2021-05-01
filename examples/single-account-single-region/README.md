@@ -8,7 +8,7 @@ This is a basic configuration example, which creates a peering connection betwee
 
 ```
 provider "aws" {
-  region     = "eu-west-1"
+  region     = "us-east-2"
 }
 
 module "single_account_single_region" {
