@@ -11,7 +11,7 @@ Configuration in this directory creates a peering connection between VPCs in a s
 
 ```
 provider "aws" {
-  region     = "us-east-1"
+  region     = "us-east-2"
 }
 
 module "single_account_single_region_options" {

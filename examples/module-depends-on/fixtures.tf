@@ -1,12 +1,18 @@
 // Fixtures
+variable "tags" {
+  description = "Common tags"
+  type        = map(string)
+  default = {
+    Name        = "this_vpc"
+    Environment = "Test"
+    TestName    = "ModuleDependsOn"
+  }
+}
 // VPCs
 resource "aws_vpc" "this" {
   cidr_block = "172.20.0.0/16"
 
-  tags = {
-    Name        = "this_vpc"
-    Environment = "Test"
-  }
+  tags = var.tags
 }
 
 resource "aws_vpc" "peer" {
@@ -23,20 +29,14 @@ resource "aws_route_table" "this" {
   count  = length(var.this_subnets)
   vpc_id = aws_vpc.this.id
 
-  tags = {
-    Name        = "This VPC RT"
-    Environment = "Test"
-  }
+  tags = var.tags
 }
 
 resource "aws_route_table" "peer" {
   count  = length(var.peer_subnets)
   vpc_id = aws_vpc.peer.id
 
-  tags = {
-    Name        = "Peer VPC RT"
-    Environment = "Test"
-  }
+  tags = var.tags
 }
 
 // Subnets
@@ -46,10 +46,7 @@ resource "aws_subnet" "this" {
   cidr_block        = var.this_subnets[count.index]
   availability_zone = element(var.azs, count.index)
 
-  tags = {
-    Name        = "This VPC Subnet"
-    Environment = "Test"
-  }
+  tags = var.tags
 }
 
 resource "aws_subnet" "peer" {
@@ -58,8 +55,5 @@ resource "aws_subnet" "peer" {
   cidr_block        = var.peer_subnets[count.index]
   availability_zone = element(var.azs, count.index)
 
-  tags = {
-    Name        = "This VPC Subnet"
-    Environment = "Test"
-  }
+  tags = var.tags
 }
