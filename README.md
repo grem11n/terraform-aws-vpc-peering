@@ -28,7 +28,7 @@ You can also manage peering options, but you need to run `apply` twice to do tha
 **Always make sure you pinned the module version!**
 
 * For Terraform versions `>=0.15` use `v4.*` versions of this module
-* For Terraform versions `>=0.13` use `v3.*` versions of this module
+* For Terraform versions `>=0.13 <0.15` use `v3.*` versions of this module
 * For Terraform versions `>=0.12 <0.13` use `v2.*` versions of this module
 * If you're still using Terraform `0.11`, you can use `v1.*` versions of this module
 
