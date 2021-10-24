@@ -5,7 +5,7 @@ This example creates a peering connection between VPCs in different regions whic
 ## Sample Code
 
 ```
-module "multi_account_multi_region" {
+module "multi_account_single_region" {
   source = "../../"
 
   providers = {
