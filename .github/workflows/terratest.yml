@@ -68,6 +68,6 @@ jobs:
           TF_VAR_aws_this_secret_key: ${{ secrets.TF_VAR_aws_this_secret_key }}
         run: >
           go mod init github.com/grem11n/terraform-aws-vpc-peering &&
-          go mod tidy &&
+          go mod tidy -compat=1.17 &&
           echo 'package main' > main.go &&
           go test -v -timeout=30m ./...
