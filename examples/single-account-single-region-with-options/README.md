@@ -5,7 +5,7 @@
 Configuration in this directory creates a peering connection between VPCs in a single region within the same AWS account. It also creates connection options:
 
 * Cross-VPC DNS resolution option
-* Allow classic link access between VPCs
+* [Deprecated] Allow classic link access between VPCs
 
 ## Code Sample
 
@@ -29,13 +29,9 @@ module "single_account_single_region_options" {
 
   // Peering options for requester
   this_dns_resolution        = true
-  this_link_to_peer_classic  = true
-  this_link_to_local_classic = true
 
   // Peering options for accepter
   peer_dns_resolution        = true
-  peer_link_to_peer_classic  = true
-  peer_link_to_local_classic = true
 
   tags = {
     Name        = "tf-single-account-single-region-with-options"
