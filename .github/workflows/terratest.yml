@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - terraform011
     paths-ignore:
       - '**.md'
   pull_request:
@@ -22,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['1.1.7']
+        terraform: ['1.2.9']
     steps:
       -  uses: actions/checkout@master
       -  uses: hashicorp/setup-terraform@v1
@@ -39,12 +38,12 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        terraform: ['1.1.7']
+        terraform: ['1.2.9']
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.17'
+          go-version: '1.18'
 
       - name: Checkout
         uses: actions/checkout@v1
@@ -68,6 +67,6 @@ jobs:
           TF_VAR_aws_this_secret_key: ${{ secrets.TF_VAR_aws_this_secret_key }}
         run: >
           go mod init github.com/grem11n/terraform-aws-vpc-peering &&
-          go mod tidy -compat=1.17 &&
+          go mod tidy &&
           echo 'package main' > main.go &&
           go test -v -timeout=30m ./...
