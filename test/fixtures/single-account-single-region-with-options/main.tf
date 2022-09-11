@@ -2,8 +2,6 @@
 // VPCs
 resource "aws_vpc" "this" {
   cidr_block           = "172.20.0.0/16"
-  enable_classiclink   = true
-  enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
@@ -14,8 +12,6 @@ resource "aws_vpc" "this" {
 
 resource "aws_vpc" "peer" {
   cidr_block           = "172.21.0.0/16"
-  enable_classiclink   = true
-  enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
