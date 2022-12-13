@@ -13,11 +13,15 @@ locals {
   this_rts_ids = length(var.this_subnets_ids) == 0 ? local.this_rts_ids_new : data.aws_route_table.this_subnet_rts[*].route_table_id
   peer_rts_ids = length(var.peer_subnets_ids) == 0 ? local.peer_rts_ids_new : data.aws_route_table.peer_subnet_rts[*].route_table_id
 
+  # Gather all VPC cidr blocks including associations
+  this_cidr_blocks = concat([data.aws_vpc.this_vpc.cidr_block], tolist([for k, v in data.aws_vpc.this_vpc.cidr_block_associations : v.cidr_block]))
+  peer_cidr_blocks = concat([data.aws_vpc.peer_vpc.cidr_block], tolist([for k, v in data.aws_vpc.peer_vpc.cidr_block_associations : v.cidr_block]))
+
   # `this_dest_cidrs` represent CIDR of peer VPC, therefore a destination CIDR for this_vpc
   # `peer_dest_cidrs` represent CIDR of this VPC, therefore a destination CIDR for peer_vpc
   # Destination cidrs for this are in peer and vice versa
-  this_dest_cidrs = length(var.peer_subnets_ids) == 0 ? toset([data.aws_vpc.peer_vpc.cidr_block]) : toset(data.aws_subnet.peer[*].cidr_block)
-  peer_dest_cidrs = length(var.this_subnets_ids) == 0 ? toset([data.aws_vpc.this_vpc.cidr_block]) : toset(data.aws_subnet.this[*].cidr_block)
+  this_dest_cidrs = length(var.peer_subnets_ids) == 0 ? toset(local.peer_cidr_blocks) : toset(data.aws_subnet.peer[*].cidr_block)
+  peer_dest_cidrs = length(var.this_subnets_ids) == 0 ? toset(local.this_cidr_blocks) : toset(data.aws_subnet.this[*].cidr_block)
 
   # Allow specifying route tables explicitly
   this_rts_ids_hack = length(var.this_rts_ids) == 0 ? local.this_rts_ids : var.this_rts_ids
