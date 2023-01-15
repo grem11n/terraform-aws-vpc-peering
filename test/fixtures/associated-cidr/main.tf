@@ -1,76 +1,53 @@
-// Fixtures
-// VPCs
-resource "aws_vpc" "this" {
-  cidr_block = var.this_cidr
+module "this_vpc" {
+  source = "terraform-aws-modules/vpc/aws"
+
+  name                  = "this-vpc"
+  cidr                  = "10.0.0.0/16"
+  secondary_cidr_blocks = ["10.10.0.0/16"]
+
+  azs = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  intra_subnets = [
+    "10.0.1.0/24",
+    "10.0.2.0/24",
+    "10.0.3.0/24",
+    "10.10.1.0/24",
+    "10.10.2.0/24",
+    "10.10.3.0/24",
+  ]
+
+  enable_nat_gateway = false
+  enable_vpn_gateway = false
 
   tags = {
-    Name        = "this_vpc"
+    Name        = "this-vpc"
+    Terraform   = "true"
     Environment = "Test"
   }
 }
 
-resource "aws_vpc" "peer" {
-  cidr_block = var.peer_cidr
+module "peer_vpc" {
+  source = "terraform-aws-modules/vpc/aws"
+
+  name                  = "peer-vpc"
+  cidr                  = "10.1.0.0/16"
+  secondary_cidr_blocks = ["10.11.0.0/16"]
+
+  azs = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  intra_subnets = [
+    "10.1.1.0/24",
+    "10.1.2.0/24",
+    "10.1.3.0/24",
+    "10.11.1.0/24",
+    "10.11.2.0/24",
+    "10.11.3.0/24",
+  ]
+
+  enable_nat_gateway = false
+  enable_vpn_gateway = false
 
   tags = {
-    Name        = "peer_vpc"
-    Environment = "Test"
-  }
-}
-
-// Associated (additional) CIDRs for VPCs
-resource "aws_vpc_ipv4_cidr_block_association" "this_associated_cidr" {
-  vpc_id     = aws_vpc.this.id
-  cidr_block = var.this_associated_cidr
-}
-
-resource "aws_vpc_ipv4_cidr_block_association" "peer_associated_cidr" {
-  vpc_id     = aws_vpc.peer.id
-  cidr_block = var.peer_associated_cidr
-}
-
-// Route Tables
-resource "aws_route_table" "this" {
-  count  = length(concat(var.this_subnets, var.this_associated_subnets))
-  vpc_id = aws_vpc.this.id
-
-  tags = {
-    Name        = "This VPC RT"
-    Environment = "Test"
-  }
-}
-
-resource "aws_route_table" "peer" {
-  count  = length(concat(var.peer_subnets, var.peer_associated_subnets))
-  vpc_id = aws_vpc.peer.id
-
-  tags = {
-    Name        = "Peer VPC RT"
-    Environment = "Test"
-  }
-}
-
-// Subnets
-resource "aws_subnet" "this" {
-  count             = length(concat(var.this_subnets, var.this_associated_subnets))
-  vpc_id            = aws_vpc.this.id
-  cidr_block        = element(concat(var.this_subnets, var.this_associated_subnets), count.index)
-  availability_zone = element(var.azs, count.index)
-
-  tags = {
-    Name        = "This VPC Subnet"
-    Environment = "Test"
-  }
-}
-
-resource "aws_subnet" "peer" {
-  count             = length(concat(var.peer_subnets, var.peer_associated_subnets))
-  vpc_id            = aws_vpc.peer.id
-  cidr_block        = element(concat(var.peer_subnets, var.peer_associated_subnets), count.index)
-  availability_zone = element(var.azs, count.index)
-
-  tags = {
-    Name        = "This VPC Subnet"
+    Name        = "peer-vpc"
+    Terraform   = "true"
     Environment = "Test"
   }
 }
