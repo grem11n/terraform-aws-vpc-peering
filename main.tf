@@ -52,7 +52,7 @@ resource "aws_vpc_peering_connection_options" "accepter" {
 resource "aws_route" "this_routes" {
   provider = aws.this
   # Only create routes for this route table if input dictates it, and in that case, for all combinations
-  count                     = var.from_this ? length(local.this_routes) : 0
+  count                     = local.create_routes_this ? length(local.this_routes) : 0
   route_table_id            = local.this_routes[count.index].rts_id
   destination_cidr_block    = local.this_routes[count.index].dest_cidr
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id
@@ -64,7 +64,7 @@ resource "aws_route" "this_routes" {
 resource "aws_route" "this_associated_routes" {
   provider = aws.this
   # Only create routes for this route table if input dictates it, and in that case, for all combinations
-  count                     = var.from_this_associated ? length(local.this_associated_routes) : 0
+  count                     = local.create_associated_routes_this ? length(local.this_associated_routes) : 0
   route_table_id            = local.this_associated_routes[count.index].rts_id
   destination_cidr_block    = local.this_associated_routes[count.index].dest_cidr
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id
@@ -76,7 +76,7 @@ resource "aws_route" "this_associated_routes" {
 resource "aws_route" "peer_routes" {
   provider = aws.peer
   # Only create routes for peer route table if input dictates it, and in that case, for all combinations
-  count                     = var.from_peer ? length(local.peer_routes) : 0
+  count                     = local.create_routes_peer ? length(local.peer_routes) : 0
   route_table_id            = local.peer_routes[count.index].rts_id
   destination_cidr_block    = local.peer_routes[count.index].dest_cidr
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id
@@ -88,7 +88,7 @@ resource "aws_route" "peer_routes" {
 resource "aws_route" "peer_associated_routes" {
   provider = aws.peer
   # Only create routes for peer route table if input dictates it, and in that case, for all combinations
-  count                     = var.from_peer_associated ? length(local.peer_associated_routes) : 0
+  count                     = local.create_associated_routes_peer ? length(local.peer_associated_routes) : 0
   route_table_id            = local.peer_associated_routes[count.index].rts_id
   destination_cidr_block    = local.peer_associated_routes[count.index].dest_cidr
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id

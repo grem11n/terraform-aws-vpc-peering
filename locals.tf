@@ -58,5 +58,10 @@ locals {
       dest_cidr = pair[1]
     }
   ]
+
+  create_associated_routes_this = var.from_this && var.from_this_associated
+  create_associated_routes_peer = var.from_peer && var.from_peer_associated
+  create_routes_this            = var.from_this && !local.create_associated_routes_this
+  create_routes_peer            = var.from_peer && !local.create_associated_routes_peer
 }
 
