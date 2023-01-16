@@ -21,6 +21,7 @@ func TestPeeringActive(t *testing.T) {
 		{"MultiAccountSingleRegion", "./fixtures/multi-account-single-region", "../examples/multi-account-single-region"},
 		{"MultiAccountMultiRegion", "./fixtures/multi-account-multi-region", "../examples/multi-account-multi-region"},
 		{"ModuleDependsOn", "", "../examples/module-depends-on"},
+		{"AssociatedCIDRs", "./fixtures/associated-cidr", "../examples/associated-cidrs"},
 	}
 
 	for _, tc := range testCases {

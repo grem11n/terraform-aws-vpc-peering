@@ -40,10 +40,22 @@ variable "from_this" {
   default     = true
 }
 
+variable "from_this_associated" {
+  description = "If traffic for associated CIDRs TO peer VPC (from this) should be allowed"
+  type        = bool
+  default     = false
+}
+
 variable "from_peer" {
-  description = "If traffic FROM peer vpc (to this) should be allowed"
+  description = "If traffic FROM the peer VPC (to this) should be allowed"
   type        = bool
   default     = true
+}
+
+variable "from_peer_associated" {
+  description = "If traffic FROM associated CIDRs of the peer VPC (to this) should be allowed"
+  type        = bool
+  default     = false
 }
 
 variable "peer_subnets_ids" {

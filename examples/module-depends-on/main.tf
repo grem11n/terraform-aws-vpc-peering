@@ -21,7 +21,7 @@ module "module_depends_on" {
   auto_accept_peering = true
 
   tags = {
-    Name        = "tf-single-account-single-region"
+    Name        = "tf-module-depends-on"
     Environment = "Test"
   }
 }

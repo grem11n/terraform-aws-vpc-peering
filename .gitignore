@@ -14,3 +14,6 @@ vendor/
 main.go
 go.mod
 go.sum
+
+# Environment variables
+.env
