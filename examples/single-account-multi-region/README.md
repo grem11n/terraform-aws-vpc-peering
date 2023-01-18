@@ -4,7 +4,7 @@ This example creates a peering connection between VPCs in different regions, whi
 
 ## Sample Code
 
-```
+```hcl
 provider "aws" {
   alias      = "this"
   region     = "eu-west-1"

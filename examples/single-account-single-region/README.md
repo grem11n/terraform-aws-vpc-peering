@@ -6,7 +6,7 @@ This is a basic configuration example, which creates a peering connection betwee
 
 ## Code Sample
 
-```
+```hcl
 provider "aws" {
   region     = "eu-west-1"
 }

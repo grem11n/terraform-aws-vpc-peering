@@ -10,7 +10,7 @@ Configuration for VPC (subnets, route tables, etc.) is omitted.
 
 Notice, that you have to explicitly provide Route Tables IDs as variables to this module in order to make it work.
 
-```
+```hcl
 module "module_depends_on" {
   source = "../../"
 
