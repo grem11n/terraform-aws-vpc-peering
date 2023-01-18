@@ -9,7 +9,7 @@ Configuration in this directory creates a peering connection between VPCs in a s
 
 ## Code Sample
 
-```
+```hcl
 provider "aws" {
   region     = "eu-west-1"
 }

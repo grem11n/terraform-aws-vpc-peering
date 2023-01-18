@@ -5,7 +5,7 @@ See [provider.tf](provider.tf) for more details.
 
 ## Sample Code
 
-```
+```hcl
 module "multi_account_multi_region" {
   source = "../../"
 

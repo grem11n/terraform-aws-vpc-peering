@@ -15,12 +15,14 @@ Glory to Ukraine! 🇺
 ---
 
 ![terraform-aws-vpc-peering](https://github.com/grem11n/terraform-aws-vpc-peering/workflows/terraform-aws-vpc-peering/badge.svg)
+
 ---
 
 This module configures VPC peering in different configurations.
 
 These types of resources are supported:
-*  [AWS VPC Peering Connection](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_peering_connection)
+
+* [AWS VPC Peering Connection](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_peering_connection)
 * [AWS VPC Peering Connection Accepter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_peering_connection_accepter)
 * [AWS VPC Peering Connection Options](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_peering_connection_options) \*
 * [AWS Route](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route)
@@ -29,7 +31,7 @@ These types of resources are supported:
 ## Important Notice
 
 * \* - There is a bug with applying VPC peering options currently. You can still specify and manage them with this module, but you will need to run `apply` twice.
-* Version `v3.1.*` supports both Terraform `0.14` and `0.15.0`. However, it throws warnings regarding empty providers deprecation. Provider configuration was changed in Terraform `0.15.0`. Therefore, newer versions would likely be incompatible with Terraform `<=0.15`. So, if you need to use both Terraofmr `0.14` and `0.15` at the same time or you're in the process of migration, please, use `v3.1.*` of this module.
+* Version `v3.1.*` supports both Terraform `0.14` and `0.15.0`. However, it throws warnings regarding empty providers deprecation. Provider configuration was changed in Terraform `0.15.0`. Therefore, newer versions would likely be incompatible with Terraform `<=0.15`. So, if you need to use both Terraform `0.14` and `0.15` at the same time or you're in the process of migration, please, use `v3.1.*` of this module.
 
 ## Features
 
@@ -60,9 +62,10 @@ Sample configuration is located in [examples](https://github.com/grem11n/terrafo
 
 
 ### Simple Peering (single AWS account, same region)
+
 **Notice**: You need to declare both providers even with single region peering.
 
-```
+```hcl
 module "single_account_single_region" {
   source = "../../"
 
@@ -85,7 +88,7 @@ module "single_account_single_region" {
 
 ## Changelog
 
-Changelog is in the [CHANGELOG.md](CHANGELOG.md)
+See the changelog on [the GitHub Releases page](https://github.com/grem11n/terraform-aws-vpc-peering/releases).
 
 ## Contribution
 
@@ -109,4 +112,5 @@ Module managed by [Yurii Rochniak](https://github.com/grem11n)
 [About me](https://grem1.in)
 
 ## License
-Apache 2 Licensed. See [LICENSE](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/LICENSE.md) for full details.
+
+Apache 2 License is applied. See [LICENSE](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/LICENSE) for full details.
