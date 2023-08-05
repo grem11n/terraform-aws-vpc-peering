@@ -1,6 +1,6 @@
 # Using depends_on With This Module
 
-If you're using Terraform `>=0.13`, you [can use `depedns_on` meta-argument with modules as well](https://www.terraform.io/docs/language/meta-arguments/depends_on.html)
+If you're using Terraform `>=0.13`, you [can use `depends_on` meta-argument with modules as well](https://www.terraform.io/docs/language/meta-arguments/depends_on.html)
 
 This example shows you, how to create both VPCs themselves and peering connection using this module and `depends_on` meta-argument.
 
