@@ -86,6 +86,31 @@ module "single_account_single_region" {
 }
 ```
 
+You can also define the peering name as a variable:
+
+
+```hcl
+module "single_account_single_region" {
+  source = "../../"
+
+  providers = {
+    aws.this = aws
+    aws.peer = aws
+  }
+
+  name = "tf-single-account-single-region"
+
+  this_vpc_id = var.this_vpc_id
+  peer_vpc_id = var.peer_vpc_id
+
+  auto_accept_peering = true
+
+  tags = {
+    Environment = "Test"
+  }
+}
+```
+
 ## Changelog
 
 See the changelog on [the GitHub Releases page](https://github.com/grem11n/terraform-aws-vpc-peering/releases).
