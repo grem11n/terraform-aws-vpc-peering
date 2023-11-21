@@ -3,7 +3,7 @@
 resource "aws_vpc" "this" {
   provider   = aws.this
   cidr_block = "172.20.0.0/16"
-
+  enable_dns_hostnames = true
   tags = {
     Name        = "this_vpc"
     Environment = "Test"
@@ -13,7 +13,7 @@ resource "aws_vpc" "this" {
 resource "aws_vpc" "peer" {
   provider   = aws.peer
   cidr_block = "172.21.0.0/16"
-
+  enable_dns_hostnames = true
   tags = {
     Name        = "peer_vpc"
     Environment = "Test"

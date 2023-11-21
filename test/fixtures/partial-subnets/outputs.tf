@@ -22,6 +22,14 @@ output "peer_subnet_ids" {
   value = aws_subnet.peer.*.id
 } 
 
+output "this_separate_routes_subnet_ids" {
+  value = aws_subnet.this_separate_routes.*.id
+}
+
+output "peer_separate_routes_subnet_ids" {
+  value = aws_subnet.peer_separate_routes.*.id
+} 
+
 output "this_route_tables" {
   value = aws_route_table.this.*.id
 }
