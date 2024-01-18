@@ -53,6 +53,10 @@ locals {
     }
   ]
 
+  this_routes_map = {
+    for route in local.this_routes : "${route.rts_id}-${route.dest_cidr}" => route
+  }
+
   # In each route table there should be 1 route for each subnet, so combining the two sets
   peer_routes = [
     for pair in setproduct(local.peer_rts_ids_hack, local.peer_dest_cidrs) : {
@@ -60,6 +64,10 @@ locals {
       dest_cidr = pair[1]
     }
   ]
+
+  peer_routes_map = {
+    for route in local.peer_routes : "${route.rts_id}-${route.dest_cidr}" => route
+  }
 
   
 
@@ -71,6 +79,10 @@ locals {
     }
   ]
 
+  this_associated_routes_map = {
+    for route in local.this_associated_routes : "${route.rts_id}-${route.dest_cidr}" => route
+  }
+
   # In each route table there should be 1 route for each subnet, so combining the two sets
   peer_associated_routes = [
     for pair in setproduct(local.peer_rts_ids_hack, local.peer_associated_dest_cidrs) : {
@@ -78,6 +90,10 @@ locals {
       dest_cidr = pair[1]
     }
   ]
+
+  peer_associated_routes_map = {
+    for route in local.peer_associated_routes : "${route.rts_id}-${route.dest_cidr}" => route
+  }
 
   create_associated_routes_this = var.from_this && var.from_this_associated
   create_associated_routes_peer = var.from_peer && var.from_peer_associated

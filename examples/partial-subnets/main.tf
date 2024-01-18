@@ -87,5 +87,5 @@ module "partial_subnets" {
     Name        = "tf-partial-subnets"
     Environment = "Test"
   }
-  
+  # use_maps = true
 }

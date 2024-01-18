@@ -111,6 +111,34 @@ Module managed by [Yurii Rochniak](https://github.com/grem11n)
 
 [About me](https://grem1.in)
 
+## Migrating from count based routes to maps based routes
+
+Why use maps based routes? Because when you have routes changed by some other entity, it will mess up routes order in state and terraform wants to change routes, sometimes deleting routes you don't want to be removed.
+
+Add variable to module input parameters
+
+```hcl
+  use_maps = true 
+```
+
+Save
+
+Generate state move script
+
+```bash
+
+export TOOL=terraform
+$TOOL state pull > tfstate.beforemigration.json
+jq --arg utility "$TOOL" --arg q "'"  '.resources[]|select(.type=="aws_route") as $p | {  address: (((.module + ".") // "") + .type + "."+ .name), item: (.instances[])} | 
+  $utility +" state mv " + $q + .address + "[" + (.item.index_key | tostring) + "]" + $q + " " +
+  $q + .address +"_map[\"" + .item.attributes.route_table_id + "-" + .item.attributes.destination_cidr_block + "\"]" + $q 
+' -r <  tfstate.beforemigration.json
+rm tfstate.beforemigration.json
+```
+Review and execute script if all-ok
+
+Run terraform / terragrunt to make sure all things are ok.
+
 ## License
 
 Apache 2 License is applied. See [LICENSE](https://github.com/grem11n/terraform-aws-vpc-peering/blob/master/LICENSE) for full details.

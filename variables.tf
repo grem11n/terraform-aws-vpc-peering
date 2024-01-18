@@ -81,3 +81,9 @@ variable "peer_rts_ids" {
   type        = list(string)
   default     = []
 }
+
+variable "use_maps" {
+  description = "If true, will use maps instead of lists for cidrs and subnets"
+  type        = bool
+  default     = false
+}
