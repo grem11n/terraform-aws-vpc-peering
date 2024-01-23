@@ -16,6 +16,12 @@ variable "auto_accept_peering" {
   default     = false
 }
 
+variable "name" {
+  description = "Name of the peering connection: string"
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   description = "Tags: map"
   type        = map(string)
