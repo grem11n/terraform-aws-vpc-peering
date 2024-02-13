@@ -1,20 +1,32 @@
+// This provider example is designed to work with Localstack.
+// You need to have a real AWS provider configuration for the production usage.
 provider "aws" {
   alias = "this"
-  region = var.this_region != "" ? var.this_region : "eu-west-2"
-  assume_role {
-    role_arn     = var.this_assume_role_arn != "" ? var.this_assume_role_arn : null     
+  endpoints {
+    ec2 = "http://localhost:4566"
+    s3  = "http://localhost:4566"
+    sts = "http://localhost:4566"
   }
-  access_key = var.aws_this_access_key != "" ? var.aws_this_access_key : null
-  secret_key = var.aws_this_secret_key != "" ? var.aws_this_secret_key : null
+  region                      = "eu-west-2"
+  access_key                  = "null"
+  secret_key                  = "null"
+  skip_credentials_validation = true
+  skip_metadata_api_check     = true
+  skip_requesting_account_id  = true
 }
 
 provider "aws" {
   alias = "peer"
-  region = var.peer_region != "" ? var.peer_region : "eu-central-1"
-  assume_role {
-    role_arn     = var.peer_assume_role_arn != "" ? var.peer_assume_role_arn : null
+  endpoints {
+    ec2 = "http://localhost:4566"
+    s3  = "http://localhost:4566"
+    sts = "http://localhost:4566"
   }
-  access_key = var.aws_peer_access_key != "" ? var.aws_peer_access_key : null
-  secret_key = var.aws_peer_secret_key != "" ? var.aws_peer_secret_key : null
+  region                      = "eu-central-1"
+  access_key                  = "null"
+  secret_key                  = "null"
+  skip_credentials_validation = true
+  skip_metadata_api_check     = true
+  skip_requesting_account_id  = true
 }
 

@@ -21,3 +21,6 @@ go.sum
 
 # Environment variables
 .env
+
+# Localstack
+volume/
