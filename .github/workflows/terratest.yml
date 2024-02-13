@@ -16,6 +16,15 @@ on:
       - '**.md'
 
 jobs:
+  markdown-check:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lint
+        uses: github/super-linter/slim@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   terraform-static:
     name: terraform-fmt
     runs-on: ubuntu-latest
