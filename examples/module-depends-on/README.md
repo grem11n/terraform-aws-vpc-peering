@@ -1,4 +1,6 @@
-# Using depends_on With This Module
+# Using `depends_on` With This Module
+
+**Warning**: There's a bug which prevents the creation of peering with the `depends_on` directove. Thus, Terraform should be executed twice to address that.
 
 If you're using Terraform `>=0.13`, you [can use `depends_on` meta-argument with modules as well](https://www.terraform.io/docs/language/meta-arguments/depends_on.html)
 

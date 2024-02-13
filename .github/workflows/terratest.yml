@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['1.3.7']
+        terraform: ['1.5.7', '1.7.3']
     steps:
       -  uses: actions/checkout@master
       -  uses: hashicorp/setup-terraform@v1
@@ -36,15 +36,13 @@ jobs:
     name: terratest
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 1
       matrix:
-        terraform: ['1.3.7']
+        terraform: ['1.5.7', '1.7.3']
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.19'
-
+          go-version: '1.21'
       - name: Checkout
         uses: actions/checkout@v1
         with:
@@ -58,13 +56,12 @@ jobs:
           sudo unzip -d /tmp/ /tmp/terraform.zip &&
           sudo mv /tmp/terraform /usr/local/bin/
 
+      - name: Start Localstack
+        run: docker-compose up -d
+
       - name: Terratest
         env:
           GOPATH: /home/runner/work/terraform-aws-vpc-peering/go
-          TF_VAR_aws_peer_access_key: ${{ secrets.TF_VAR_aws_peer_access_key }}
-          TF_VAR_aws_peer_secret_key: ${{ secrets.TF_VAR_aws_peer_secret_key }}
-          TF_VAR_aws_this_access_key: ${{ secrets.TF_VAR_aws_this_access_key }}
-          TF_VAR_aws_this_secret_key: ${{ secrets.TF_VAR_aws_this_secret_key }}
         run: >
           go mod init github.com/grem11n/terraform-aws-vpc-peering &&
           go mod tidy &&

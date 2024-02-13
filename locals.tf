@@ -8,25 +8,25 @@ locals {
 
   # Rout table should either be the one for the vpc, or the ones associated to the subnets if subnets are given
   this_subnet_route_table_map = {
-    for subnet in data.aws_subnets.this.ids: 
-      subnet => concat(
-        data.aws_route_tables.this_associated_route_tables[subnet].ids,
-        [data.aws_route_table.this_main_route_table.id]
-      )[0]
+    for subnet in data.aws_subnets.this.ids :
+    subnet => concat(
+      data.aws_route_tables.this_associated_route_tables[subnet].ids,
+      [data.aws_route_table.this_main_route_table.id]
+    )[0]
   }
 
   peer_subnet_route_table_map = {
-    for subnet in data.aws_subnets.peer.ids: 
-      subnet => concat(
-        data.aws_route_tables.peer_associated_route_tables[subnet].ids,
-        [data.aws_route_table.peer_main_route_table.id]
-      )[0]
+    for subnet in data.aws_subnets.peer.ids :
+    subnet => concat(
+      data.aws_route_tables.peer_associated_route_tables[subnet].ids,
+      [data.aws_route_table.peer_main_route_table.id]
+    )[0]
   }
 
   this_rts_ids = length(var.this_subnets_ids) == 0 ? distinct(values(local.this_subnet_route_table_map)) : distinct([
     for subnet_id in var.this_subnets_ids : local.this_subnet_route_table_map[subnet_id]
   ])
-  
+
   peer_rts_ids = length(var.peer_subnets_ids) == 0 ? distinct(values(local.peer_subnet_route_table_map)) : distinct([
     for subnet_id in var.peer_subnets_ids : local.peer_subnet_route_table_map[subnet_id]
   ])
@@ -61,7 +61,7 @@ locals {
     }
   ]
 
-  
+
 
   # Routes for associated subnets
   this_associated_routes = [

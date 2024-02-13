@@ -39,17 +39,17 @@ data "aws_subnet" "peer" {
 
 # this vpc main route table
 data "aws_route_table" "this_main_route_table" {
-  provider  = aws.this
+  provider = aws.this
   vpc_id   = var.this_vpc_id
   filter {
     name   = "association.main"
     values = ["true"]
-  } 
+  }
 }
 
 # this subnets
 data "aws_subnets" "this" {
-  provider  = aws.this
+  provider = aws.this
   filter {
     name   = "vpc-id"
     values = [var.this_vpc_id]
@@ -58,7 +58,7 @@ data "aws_subnets" "this" {
 
 # get route tables associated with subnets
 data "aws_route_tables" "this_associated_route_tables" {
-  for_each = { for subnet in data.aws_subnets.this.ids: subnet => subnet }
+  for_each = { for subnet in data.aws_subnets.this.ids : subnet => subnet }
   provider = aws.this
   vpc_id   = var.this_vpc_id
   filter {
@@ -72,17 +72,17 @@ data "aws_route_tables" "this_associated_route_tables" {
 
 # peer vpc main route table
 data "aws_route_table" "peer_main_route_table" {
-  provider  = aws.peer
+  provider = aws.peer
   vpc_id   = var.peer_vpc_id
   filter {
     name   = "association.main"
     values = ["true"]
-  } 
+  }
 }
 
 # peer subnets
 data "aws_subnets" "peer" {
-  provider  = aws.peer
+  provider = aws.peer
   filter {
     name   = "vpc-id"
     values = [var.peer_vpc_id]
@@ -91,7 +91,7 @@ data "aws_subnets" "peer" {
 
 # get route tables associated with subnets
 data "aws_route_tables" "peer_associated_route_tables" {
-  for_each = { for subnet in data.aws_subnets.peer.ids: subnet => subnet }
+  for_each = { for subnet in data.aws_subnets.peer.ids : subnet => subnet }
   provider = aws.peer
   vpc_id   = var.peer_vpc_id
   filter {
