@@ -36,7 +36,6 @@ jobs:
     name: terratest
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 1
       matrix:
         terraform: ['1.5.7', '1.7.3']
     steps:
