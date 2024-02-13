@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['1.5.7']
+        terraform: ['1.5.7', '1.7.3']
     steps:
       -  uses: actions/checkout@master
       -  uses: hashicorp/setup-terraform@v1
@@ -38,7 +38,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        terraform: ['1.5.7']
+        terraform: ['1.5.7', '1.7.3']
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2
