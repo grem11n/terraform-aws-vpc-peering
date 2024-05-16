@@ -1,50 +1,50 @@
-variable this_assume_role_arn {
-  type = string
+variable "this_assume_role_arn" {
+  type    = string
   default = ""
 }
 
-variable peer_assume_role_arn {
-  type = string
+variable "peer_assume_role_arn" {
+  type    = string
   default = ""
 }
 
 variable "aws_this_access_key" {
   description = "AWS Access Key for requester account"
-  default = ""
+  default     = ""
 }
 
 variable "aws_this_secret_key" {
   description = "AWS Secret Key for requester account"
-  default = ""
+  default     = ""
 }
 
 variable "aws_peer_access_key" {
   description = "AWS Access Key for accepter account"
-  default = ""
+  default     = ""
 }
 
 variable "aws_peer_secret_key" {
   description = "AWS Secret Key for accepter account"
-  default = ""
+  default     = ""
 }
 
 
-variable this_region {
-  type = string
+variable "this_region" {
+  type    = string
   default = "eu-central-1"
 }
 
-variable peer_region {
-  type = string
+variable "peer_region" {
+  type    = string
   default = "eu-central-1"
 }
 
-variable this_vpc_id {
-  type = string  
+variable "this_vpc_id" {
+  type = string
 }
 
-variable peer_vpc_id {
-  type = string     
+variable "peer_vpc_id" {
+  type = string
 }
 
 variable "auto_accept_peering" {

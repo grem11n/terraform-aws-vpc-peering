@@ -1,8 +1,8 @@
 // Fixtures
 // VPC
 resource "aws_vpc" "this" {
-  provider   = aws.this
-  cidr_block = "172.20.0.0/16"
+  provider             = aws.this
+  cidr_block           = "172.20.0.0/16"
   enable_dns_hostnames = true
   tags = {
     Name        = "this_vpc"
@@ -11,8 +11,8 @@ resource "aws_vpc" "this" {
 }
 
 resource "aws_vpc" "peer" {
-  provider   = aws.peer
-  cidr_block = "172.21.0.0/16"
+  provider             = aws.peer
+  cidr_block           = "172.21.0.0/16"
   enable_dns_hostnames = true
   tags = {
     Name        = "peer_vpc"
@@ -74,8 +74,8 @@ resource "aws_subnet" "this_separate_routes" {
 }
 
 resource "aws_route_table_association" "this" {
-  provider          = aws.this
-  count             = length(var.azs_this)
+  provider       = aws.this
+  count          = length(var.azs_this)
   subnet_id      = aws_subnet.this_separate_routes[count.index].id
   route_table_id = aws_route_table.this[count.index].id
 }
@@ -107,8 +107,8 @@ resource "aws_subnet" "peer_separate_routes" {
 }
 
 resource "aws_route_table_association" "peer" {
-  provider          = aws.peer
-  count             = length(var.azs_peer)
+  provider       = aws.peer
+  count          = length(var.azs_peer)
   subnet_id      = aws_subnet.peer_separate_routes[count.index].id
   route_table_id = aws_route_table.peer[count.index].id
 }
