@@ -17,9 +17,10 @@ func TestPeeringActive(t *testing.T) {
 	testCases := []TestCase{
 		{"SingleAccountSingleRegion", "./fixtures/single-account-single-region", "../examples/single-account-single-region"},
 		{"SingleAccountSingleRegionWithOptions", "./fixtures/single-account-single-region-with-options", "../examples/single-account-single-region-with-options"},
+		{"SingleAccountSingleRegionOneDualstack", "./fixtures/single-account-single-region-one-dualstack", "../examples/single-account-single-region"},
 		{"SingleAccountMultiRegion", "./fixtures/single-account-multi-region", "../examples/single-account-multi-region"},
 		{"MultiAccountSingleRegion", "./fixtures/multi-account-single-region", "../examples/multi-account-single-region"},
-		{"MultiAccountSingleRegionDualstack", "./fixtures/multi-account-single-region-dualstack", "../examples/multi-account-single-region"},
+		{"MultiAccountSingleRegionBothDualstack", "./fixtures/multi-account-single-region-both-dualstack", "../examples/multi-account-single-region"},
 		{"MultiAccountMultiRegion", "./fixtures/multi-account-multi-region", "../examples/multi-account-multi-region"},
 		// There is a bug with `depends_on` functionality.
 		//{"ModuleDependsOn", "", "../examples/module-depends-on"},
