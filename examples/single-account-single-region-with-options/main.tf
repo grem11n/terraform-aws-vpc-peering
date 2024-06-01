@@ -14,10 +14,10 @@ module "single_account_single_region_options" {
   auto_accept_peering = true
 
   // Peering options for requester
-  this_dns_resolution        = true
+  this_dns_resolution = true
 
   // Peering options for accepter
-  peer_dns_resolution        = true
+  peer_dns_resolution = true
 
   tags = {
     Name        = "tf-single-account-single-region-with-options"

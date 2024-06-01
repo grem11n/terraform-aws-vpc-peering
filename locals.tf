@@ -2,9 +2,9 @@ locals {
   this_region = data.aws_region.this.name
   peer_region = data.aws_region.peer.name
 
-  same_region            = data.aws_region.this.name == data.aws_region.peer.name
-  same_account           = data.aws_caller_identity.this.account_id == data.aws_caller_identity.peer.account_id
-  same_acount_and_region = local.same_region && local.same_account
+  same_region             = data.aws_region.this.name == data.aws_region.peer.name
+  same_account            = data.aws_caller_identity.this.account_id == data.aws_caller_identity.peer.account_id
+  same_account_and_region = local.same_region && local.same_account
 
   # Rout table should either be the one for the vpc, or the ones associated to the subnets if subnets are given
   this_subnet_route_table_map = {
@@ -34,36 +34,49 @@ locals {
   # `this_dest_cidrs` represent CIDR of peer VPC, therefore a destination CIDR for this_vpc
   # `peer_dest_cidrs` represent CIDR of this VPC, therefore a destination CIDR for peer_vpc
   # Destination cidrs for this are in peer and vice versa
-  this_dest_cidrs = length(var.peer_subnets_ids) == 0 ? toset([data.aws_vpc.peer_vpc.cidr_block]) : toset(data.aws_subnet.peer[*].cidr_block)
-  peer_dest_cidrs = length(var.this_subnets_ids) == 0 ? toset([data.aws_vpc.this_vpc.cidr_block]) : toset(data.aws_subnet.this[*].cidr_block)
+  this_dest_ipv4_cidrs = toset(compact(length(var.peer_subnets_ids) == 0 ? [data.aws_vpc.peer_vpc.cidr_block] : data.aws_subnet.peer[*].cidr_block))
+  this_dest_ipv6_cidrs = toset(compact(length(var.peer_subnets_ids) == 0 ? [data.aws_vpc.peer_vpc.ipv6_cidr_block] : data.aws_subnet.peer[*].ipv6_cidr_block))
+  peer_dest_ipv4_cidrs = toset(compact(length(var.this_subnets_ids) == 0 ? [data.aws_vpc.this_vpc.cidr_block] : data.aws_subnet.this[*].cidr_block))
+  peer_dest_ipv6_cidrs = toset(compact(length(var.this_subnets_ids) == 0 ? [data.aws_vpc.this_vpc.ipv6_cidr_block] : data.aws_subnet.this[*].ipv6_cidr_block))
 
   # Get associated CIDR blocks
-  this_associated_dest_cidrs = toset(tolist([for k, v in data.aws_vpc.peer_vpc.cidr_block_associations : v.cidr_block]))
-  peer_associated_dest_cidrs = toset(tolist([for k, v in data.aws_vpc.this_vpc.cidr_block_associations : v.cidr_block]))
+  this_associated_dest_cidrs = toset(compact([for k, v in data.aws_vpc.peer_vpc.cidr_block_associations : v.cidr_block]))
+  peer_associated_dest_cidrs = toset(compact([for k, v in data.aws_vpc.this_vpc.cidr_block_associations : v.cidr_block]))
 
   # Allow specifying route tables explicitly
   this_rts_ids_hack = length(var.this_rts_ids) == 0 ? local.this_rts_ids : var.this_rts_ids
   peer_rts_ids_hack = length(var.peer_rts_ids) == 0 ? local.peer_rts_ids : var.peer_rts_ids
 
   # In each route table there should be 1 route for each subnet, so combining the two sets
-  this_routes = [
-    for pair in setproduct(local.this_rts_ids_hack, local.this_dest_cidrs) : {
-      rts_id    = pair[0]
-      dest_cidr = pair[1]
+  this_ipv4_routes = [
+    for pair in setproduct(local.this_rts_ids_hack, local.this_dest_ipv4_cidrs) : {
+      rts_id         = pair[0]
+      dest_ipv4_cidr = pair[1]
     }
   ]
 
-  # In each route table there should be 1 route for each subnet, so combining the two sets
-  peer_routes = [
-    for pair in setproduct(local.peer_rts_ids_hack, local.peer_dest_cidrs) : {
-      rts_id    = pair[0]
-      dest_cidr = pair[1]
+  this_ipv6_routes = [
+    for pair in setproduct(local.this_rts_ids_hack, local.this_dest_ipv6_cidrs) : {
+      rts_id         = pair[0]
+      dest_ipv6_cidr = pair[1]
     }
   ]
 
+  peer_ipv4_routes = [
+    for pair in setproduct(local.peer_rts_ids_hack, local.peer_dest_ipv4_cidrs) : {
+      rts_id         = pair[0]
+      dest_ipv4_cidr = pair[1]
+    }
+  ]
 
+  peer_ipv6_routes = [
+    for pair in setproduct(local.peer_rts_ids_hack, local.peer_dest_ipv6_cidrs) : {
+      rts_id         = pair[0]
+      dest_ipv6_cidr = pair[1]
+    }
+  ]
 
-  # Routes for associated subnets
+  # Routes for additional associated CIDRs
   this_associated_routes = [
     for pair in setproduct(local.this_rts_ids_hack, local.this_associated_dest_cidrs) : {
       rts_id    = pair[0]
@@ -71,7 +84,6 @@ locals {
     }
   ]
 
-  # In each route table there should be 1 route for each subnet, so combining the two sets
   peer_associated_routes = [
     for pair in setproduct(local.peer_rts_ids_hack, local.peer_associated_dest_cidrs) : {
       rts_id    = pair[0]
