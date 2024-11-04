@@ -61,7 +61,7 @@ resource "aws_route" "this_routes" {
 resource "aws_route" "this_ipv6_routes" {
   provider = aws.this
   # Only create routes for this route table if input dictates it, and in that case, for all combinations
-  count                       = local.create_routes_this ? length(local.this_ipv6_routes) : 0
+  count                       = local.create_routes_this_ipv6 ? length(local.this_ipv6_routes) : 0
   route_table_id              = local.this_ipv6_routes[count.index].rts_id
   destination_ipv6_cidr_block = local.this_ipv6_routes[count.index].dest_ipv6_cidr
   vpc_peering_connection_id   = aws_vpc_peering_connection.this.id
@@ -94,7 +94,7 @@ resource "aws_route" "peer_routes" {
 resource "aws_route" "peer_ipv6_routes" {
   provider = aws.peer
   # Only create routes for peer route table if input dictates it, and in that case, for all combinations
-  count                       = local.create_routes_peer ? length(local.peer_ipv6_routes) : 0
+  count                       = local.create_routes_peer_ipv6 ? length(local.peer_ipv6_routes) : 0
   route_table_id              = local.peer_ipv6_routes[count.index].rts_id
   destination_ipv6_cidr_block = local.peer_ipv6_routes[count.index].dest_ipv6_cidr
   vpc_peering_connection_id   = aws_vpc_peering_connection.this.id
