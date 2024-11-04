@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,6 +16,7 @@ type TestCase struct {
 }
 
 func TestPeeringActive(t *testing.T) {
+	t.Parallel()
 	testCases := []TestCase{
 		{"SingleAccountSingleRegion", "./fixtures/single-account-single-region", "../examples/single-account-single-region"},
 		{"SingleAccountSingleRegionWithOptions", "./fixtures/single-account-single-region-with-options", "../examples/single-account-single-region-with-options"},
@@ -30,27 +32,36 @@ func TestPeeringActive(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
+		tc := tc
 		t.Run(tc.Name, func(t *testing.T) {
+			t.Parallel()
 			terratestRun(tc, t)
 		})
 	}
 }
 
 func TestConnectionName(t *testing.T) {
+	t.Parallel()
 	var testCases = []struct {
 		name     string
+		fixtures string
 		expected string
 	}{
-		{"DefaultName", "tf-single-account-single-region"},
-		{"CustomName", "tf-custom-name"},
+		{"DefaultName", "./fixtures/default-name", "tf-single-account-single-region"},
+		{"CustomName", "./fixtures/custom-name", "tf-custom-name"},
 	}
 
 	for _, tc := range testCases {
+		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			// Make a copy of the terraform module to a temporary directory. This allows running multiple tests in parallel
+			// against the same terraform module.
+			moduleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/custom-name-tag")
 			var tfVars = make(map[string]interface{})
 			// Apply the fixtures
 			fixturesTerraformOptions := &terraform.Options{
-				TerraformDir: "./fixtures/single-account-single-region", // hardcoded
+				TerraformDir: tc.fixtures,
 			}
 
 			// Remove the fixtures resources in the end of the test
@@ -72,7 +83,7 @@ func TestConnectionName(t *testing.T) {
 
 			// Terraform Options for module
 			moduleTerraformOptions := &terraform.Options{
-				TerraformDir: "../examples/custom-name-tag", // hardcoded
+				TerraformDir: moduleFolder,
 				Vars:         tfVars,
 			}
 

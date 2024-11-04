@@ -1,6 +1,6 @@
 // Basic Module Example
 // Creates a peering between VPCs in the same account in the same region
-module "custiom_name" {
+module "custom_name" {
   source = "../../"
 
   providers = {
