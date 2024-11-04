@@ -1,6 +1,7 @@
 package test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -31,6 +32,58 @@ func TestPeeringActive(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			terratestRun(tc, t)
+		})
+	}
+}
+
+func TestConnectionName(t *testing.T) {
+	var testCases = []struct {
+		name     string
+		expected string
+	}{
+		{"DefaultName", "tf-single-account-single-region"},
+		{"CustomName", "tf-custom-name"},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			var tfVars = make(map[string]interface{})
+			// Apply the fixtures
+			fixturesTerraformOptions := &terraform.Options{
+				TerraformDir: "./fixtures/single-account-single-region", // hardcoded
+			}
+
+			// Remove the fixtures resources in the end of the test
+			defer terraform.Destroy(t, fixturesTerraformOptions)
+
+			// Install Prerequisites
+			terraform.InitAndApply(t, fixturesTerraformOptions)
+
+			// Get the outputs from fixtures
+			thisVpcID := terraform.Output(t, fixturesTerraformOptions, "this_vpc_id")
+			peerVpcID := terraform.Output(t, fixturesTerraformOptions, "peer_vpc_id")
+
+			tfVars["this_vpc_id"] = thisVpcID
+			tfVars["peer_vpc_id"] = peerVpcID
+			// This is a hack, but I'm too tired to figure out something better
+			if strings.EqualFold(tc.name, "CustomName") {
+				tfVars["name"] = tc.expected
+			}
+
+			// Terraform Options for module
+			moduleTerraformOptions := &terraform.Options{
+				TerraformDir: "../examples/custom-name-tag", // hardcoded
+				Vars:         tfVars,
+			}
+
+			// Remove the module resources in the end of the test
+			defer terraform.Destroy(t, moduleTerraformOptions)
+			// Create module resources
+			terraform.InitAndApply(t, moduleTerraformOptions)
+			var conn any
+			terraform.OutputStruct(t, moduleTerraformOptions, "vpc_peering_connection", &conn)
+			actualName := conn.(map[string]any)["tags_all"].(map[string]any)["Name"].(string)
+			assert.Equal(t, tc.expected, actualName)
 		})
 	}
 }

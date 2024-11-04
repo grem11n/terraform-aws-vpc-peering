@@ -97,4 +97,35 @@ locals {
   create_routes_this_ipv6       = var.from_this && !local.create_associated_routes_this && var.use_ipv6
   create_routes_peer            = var.from_peer && !local.create_associated_routes_peer
   create_routes_peer_ipv6       = var.from_peer && !local.create_associated_routes_peer && var.use_ipv6
+
+  # Build tags
+  requester_tags = var.name == "" ? merge(
+    var.tags,
+    tomap(
+      { "Side" = local.same_account_and_region ? "Both" : "Requester" }
+    )
+    ) : merge(
+    var.tags,
+    tomap(
+      { "Name" = var.name }
+    ),
+    tomap(
+      { "Side" = local.same_account_and_region ? "Both" : "Requester" }
+    )
+  )
+
+  accepter_tags = var.name == "" ? merge(
+    var.tags,
+    tomap(
+      { "Side" = local.same_account_and_region ? "Both" : "Accepter" }
+    )
+    ) : merge(
+    var.tags,
+    tomap(
+      { "Name" = var.name }
+    ),
+    tomap(
+      { "Side" = local.same_account_and_region ? "Both" : "Accepter" }
+    )
+  )
 }
