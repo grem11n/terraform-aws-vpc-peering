@@ -7,7 +7,7 @@ resource "aws_vpc_peering_connection" "this" {
   peer_vpc_id   = var.peer_vpc_id
   vpc_id        = var.this_vpc_id
   peer_region   = data.aws_region.peer.name
-  tags          = merge(var.tags, { "Name" = var.name }, tomap({ "Side" = local.same_account_and_region ? "Both" : "Requester" }))
+  tags          = local.requester_tags
   # hardcoded
   timeouts {
     create = "15m"
@@ -22,7 +22,7 @@ resource "aws_vpc_peering_connection_accepter" "peer_accepter" {
   provider                  = aws.peer
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id
   auto_accept               = var.auto_accept_peering
-  tags                      = merge(var.tags, { "Name" = var.name }, tomap({ "Side" = local.same_account_and_region ? "Both" : "Accepter" }))
+  tags                      = local.accepter_tags
 }
 
 #######################
