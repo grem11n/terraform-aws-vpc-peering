@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['1.5.7', '1.7.3']
+        terraform: ['1.5.7', '1.9.8']
     steps:
       -  uses: actions/checkout@master
       -  uses: hashicorp/setup-terraform@v1
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['1.5.7', '1.7.3']
+        terraform: ['1.5.7', '1.9.8']
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -63,7 +63,8 @@ jobs:
         run: >
           wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -O /tmp/terraform.zip &&
           sudo unzip -d /tmp/ /tmp/terraform.zip &&
-          sudo mv /tmp/terraform /usr/local/bin/
+          sudo mv /tmp/terraform /usr/local/bin/ &&
+          go install github.com/kyoh86/richgo@latest
 
       - name: Start Localstack
         uses: LocalStack/setup-localstack@v0.2.3
@@ -76,5 +77,4 @@ jobs:
         run: >
           go mod init github.com/grem11n/terraform-aws-vpc-peering &&
           go mod tidy &&
-          echo 'package main' > main.go &&
-          go test -v -timeout=30m ./...
+          richgo test -v -timeout=30m ./...
