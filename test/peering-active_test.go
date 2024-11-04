@@ -35,6 +35,55 @@ func TestPeeringActive(t *testing.T) {
 	}
 }
 
+func TestConnectionName(t *testing.T) {
+	var testCases = []struct {
+		name     string
+		expected string
+	}{
+		{"DefaultName", "tf-single-account-single-region"},
+		{"CustomName", "tf-custom-name"},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			var tfVars = make(map[string]interface{})
+			// Apply the fixtures
+			fixturesTerraformOptions := &terraform.Options{
+				TerraformDir: "./fixtures/single-account-single-region", // hardcoded
+			}
+
+			// Remove the fixtures resources in the end of the test
+			defer terraform.Destroy(t, fixturesTerraformOptions)
+
+			// Install Prerequisites
+			terraform.InitAndApply(t, fixturesTerraformOptions)
+
+			// Get the outputs from fixtures
+			thisVpcID := terraform.Output(t, fixturesTerraformOptions, "this_vpc_id")
+			peerVpcID := terraform.Output(t, fixturesTerraformOptions, "peer_vpc_id")
+
+			tfVars["this_vpc_id"] = thisVpcID
+			tfVars["peer_vpc_id"] = peerVpcID
+			tfVars["name"] = tc.expected
+
+			// Terraform Options for module
+			moduleTerraformOptions := &terraform.Options{
+				TerraformDir: "../examples/custom-name-tag", // hardcoded
+				Vars:         tfVars,
+			}
+
+			// Remove the module resources in the end of the test
+			defer terraform.Destroy(t, moduleTerraformOptions)
+			// Create module resources
+			terraform.InitAndApply(t, moduleTerraformOptions)
+			var conn any
+			terraform.OutputStruct(t, moduleTerraformOptions, "vpc_peering_connection", &conn)
+			actualName := conn.(map[string]any)["tags_all"].(map[string]any)["Name"].(string)
+			assert.Equal(t, tc.expected, actualName)
+		})
+	}
+}
+
 func terratestRun(tc TestCase, t *testing.T) {
 	var tfVars = make(map[string]interface{})
 	// Assertions

@@ -95,4 +95,35 @@ locals {
   create_associated_routes_peer = var.from_peer && var.from_peer_associated
   create_routes_this            = var.from_this && !local.create_associated_routes_this
   create_routes_peer            = var.from_peer && !local.create_associated_routes_peer
+
+  # Build tags
+  requester_tags = var.name == "" ? merge(
+    var.tags,
+    tomap(
+      { "Side" = local.same_account_and_region ? "Both" : "Requester" }
+    )
+    ) : merge(
+    var.tags,
+    tomap(
+      { "Name" = var.name }
+    ),
+    tomap(
+      { "Side" = local.same_account_and_region ? "Both" : "Requester" }
+    )
+  )
+
+  accepter_tags = var.name == "" ? merge(
+    var.tags,
+    tomap(
+      { "Side" = local.same_account_and_region ? "Both" : "Accepter" }
+    )
+    ) : merge(
+    var.tags,
+    tomap(
+      { "Name" = var.name }
+    ),
+    tomap(
+      { "Side" = local.same_account_and_region ? "Both" : "Accepter" }
+    )
+  )
 }
