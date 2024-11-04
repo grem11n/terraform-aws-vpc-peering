@@ -1,6 +1,7 @@
 package test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -64,7 +65,10 @@ func TestConnectionName(t *testing.T) {
 
 			tfVars["this_vpc_id"] = thisVpcID
 			tfVars["peer_vpc_id"] = peerVpcID
-			tfVars["name"] = tc.expected
+			// This is a hack, but I'm too tired to figure out something better
+			if strings.EqualFold(tc.name, "CustomName") {
+				tfVars["name"] = tc.expected
+			}
 
 			// Terraform Options for module
 			moduleTerraformOptions := &terraform.Options{
