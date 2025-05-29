@@ -35,9 +35,9 @@ locals {
   # `peer_dest_cidrs` represent CIDR of this VPC, therefore a destination CIDR for peer_vpc
   # Destination cidrs for this are in peer and vice versa
   this_dest_ipv4_cidrs = toset(compact(length(var.peer_subnets_ids) == 0 ? [data.aws_vpc.peer_vpc.cidr_block] : data.aws_subnet.peer[*].cidr_block))
-  this_dest_ipv6_cidrs = toset(compact(length(var.peer_subnets_ids) == 0 ? [data.aws_vpc.peer_vpc.ipv6_cidr_block] : data.aws_subnet.peer[*].ipv6_cidr_block))
+  this_dest_ipv6_cidrs = toset(compact(length(var.peer_subnets_ids) == 0 && var.use_ipv6 ? [data.aws_vpc.peer_vpc.ipv6_cidr_block] : data.aws_subnet.peer[*].ipv6_cidr_block))
   peer_dest_ipv4_cidrs = toset(compact(length(var.this_subnets_ids) == 0 ? [data.aws_vpc.this_vpc.cidr_block] : data.aws_subnet.this[*].cidr_block))
-  peer_dest_ipv6_cidrs = toset(compact(length(var.this_subnets_ids) == 0 ? [data.aws_vpc.this_vpc.ipv6_cidr_block] : data.aws_subnet.this[*].ipv6_cidr_block))
+  peer_dest_ipv6_cidrs = toset(compact(length(var.this_subnets_ids) == 0 && var.use_ipv6 ? [data.aws_vpc.this_vpc.ipv6_cidr_block] : data.aws_subnet.this[*].ipv6_cidr_block))
 
   # Get associated CIDR blocks
   this_associated_dest_cidrs = toset(compact([for k, v in data.aws_vpc.peer_vpc.cidr_block_associations : v.cidr_block]))
@@ -94,7 +94,9 @@ locals {
   create_associated_routes_this = var.from_this && var.from_this_associated
   create_associated_routes_peer = var.from_peer && var.from_peer_associated
   create_routes_this            = var.from_this && !local.create_associated_routes_this
+  create_routes_this_ipv6       = var.from_this && !local.create_associated_routes_this && var.use_ipv6
   create_routes_peer            = var.from_peer && !local.create_associated_routes_peer
+  create_routes_peer_ipv6       = var.from_peer && !local.create_associated_routes_peer && var.use_ipv6
 
   # Build tags
   requester_tags = var.name == "" ? merge(
