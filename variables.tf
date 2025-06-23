@@ -91,5 +91,5 @@ variable "peer_rts_ids" {
 variable "use_ipv6" {
   description = "If ipv6 should be used"
   type        = bool
-  default     = true
+  default     = false
 }
