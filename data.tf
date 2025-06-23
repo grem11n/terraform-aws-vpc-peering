@@ -58,7 +58,7 @@ data "aws_subnets" "this" {
 
 # get route tables associated with subnets
 data "aws_route_tables" "this_associated_route_tables" {
-  for_each = { for subnet in data.aws_subnets.this.ids : subnet => subnet }
+  for_each = { for subnet in var.this_subnets_ids : subnet => subnet }
   provider = aws.this
   vpc_id   = var.this_vpc_id
   filter {
@@ -67,6 +67,10 @@ data "aws_route_tables" "this_associated_route_tables" {
   }
 }
 
+data "aws_route_tables" "this_all_route_tables" {
+  provider = aws.this
+  vpc_id   = var.this_vpc_id
+}
 
 # Get subnets and route tables from peer
 
@@ -91,7 +95,7 @@ data "aws_subnets" "peer" {
 
 # get route tables associated with subnets
 data "aws_route_tables" "peer_associated_route_tables" {
-  for_each = { for subnet in data.aws_subnets.peer.ids : subnet => subnet }
+  for_each = { for subnet in var.peer_subnets_ids : subnet => subnet }
   provider = aws.peer
   vpc_id   = var.peer_vpc_id
   filter {
@@ -100,3 +104,7 @@ data "aws_route_tables" "peer_associated_route_tables" {
   }
 }
 
+data "aws_route_tables" "peer_all_route_tables" {
+  provider = aws.peer
+  vpc_id   = var.peer_vpc_id
+}
