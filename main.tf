@@ -6,7 +6,7 @@ resource "aws_vpc_peering_connection" "this" {
   peer_owner_id = data.aws_caller_identity.peer.account_id
   peer_vpc_id   = var.peer_vpc_id
   vpc_id        = var.this_vpc_id
-  peer_region   = data.aws_region.peer.name
+  peer_region   = data.aws_region.peer.region
   tags          = local.requester_tags
   # hardcoded
   timeouts {
