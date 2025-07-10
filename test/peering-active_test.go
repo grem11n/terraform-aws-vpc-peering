@@ -26,7 +26,7 @@ func TestPeeringActive(t *testing.T) {
 		{"MultiAccountSingleRegionBothDualstack", "./fixtures/multi-account-single-region-both-dualstack", "../examples/multi-account-single-region"},
 		{"MultiAccountMultiRegion", "./fixtures/multi-account-multi-region", "../examples/multi-account-multi-region"},
 		// There is a bug with `depends_on` functionality.
-		//{"ModuleDependsOn", "", "../examples/module-depends-on"},
+		{"ModuleDependsOn", "", "../examples/module-depends-on"},
 		{"AssociatedCIDRs", "./fixtures/associated-cidr", "../examples/associated-cidrs"},
 		{"PartialSubnets", "./fixtures/partial-subnets", "../examples/partial-subnets"},
 	}
