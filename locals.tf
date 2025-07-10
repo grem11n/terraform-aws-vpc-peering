@@ -1,8 +1,8 @@
 locals {
-  this_region = data.aws_region.this.name
-  peer_region = data.aws_region.peer.name
+  this_region = data.aws_region.this.region
+  peer_region = data.aws_region.peer.region
 
-  same_region             = data.aws_region.this.name == data.aws_region.peer.name
+  same_region             = data.aws_region.this.region == data.aws_region.peer.region
   same_account            = data.aws_caller_identity.this.account_id == data.aws_caller_identity.peer.account_id
   same_account_and_region = local.same_region && local.same_account
 
