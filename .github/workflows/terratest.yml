@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['1.5.7', '1.9.8']
+        terraform: ['1.5.7', '1.12.2']
     steps:
       -  uses: actions/checkout@master
       -  uses: hashicorp/setup-terraform@v1
@@ -46,12 +46,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['1.5.7', '1.9.8']
+        terraform: ['1.5.7', '1.12.2']
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.21'
+          go-version: '1.24'
       - name: Checkout
         uses: actions/checkout@v1
         with:
@@ -67,7 +67,7 @@ jobs:
           go install github.com/kyoh86/richgo@latest
 
       - name: Start Localstack
-        uses: LocalStack/setup-localstack@v0.2.3
+        uses: LocalStack/setup-localstack@v0.2.4
         with:
           image-tag: "latest"
 
