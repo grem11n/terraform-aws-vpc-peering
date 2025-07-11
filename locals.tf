@@ -34,10 +34,10 @@ locals {
   # `this_dest_cidrs` represent CIDR of peer VPC, therefore a destination CIDR for this_vpc
   # `peer_dest_cidrs` represent CIDR of this VPC, therefore a destination CIDR for peer_vpc
   # Destination cidrs for this are in peer and vice versa
-  this_dest_ipv4_cidrs = toset(compact(length(var.peer_subnets_ids) == 0 ? [data.aws_vpc.peer_vpc.cidr_block] : data.aws_subnet.peer[*].cidr_block))
-  this_dest_ipv6_cidrs = toset(compact(length(var.peer_subnets_ids) == 0 && var.use_ipv6 ? [data.aws_vpc.peer_vpc.ipv6_cidr_block] : data.aws_subnet.peer[*].ipv6_cidr_block))
-  peer_dest_ipv4_cidrs = toset(compact(length(var.this_subnets_ids) == 0 ? [data.aws_vpc.this_vpc.cidr_block] : data.aws_subnet.this[*].cidr_block))
-  peer_dest_ipv6_cidrs = toset(compact(length(var.this_subnets_ids) == 0 && var.use_ipv6 ? [data.aws_vpc.this_vpc.ipv6_cidr_block] : data.aws_subnet.this[*].ipv6_cidr_block))
+  this_dest_ipv4_cidrs = toset(length(var.peer_subnets_ids) == 0 ? [data.aws_vpc.peer_vpc.cidr_block] : compact(data.aws_subnet.peer[*].cidr_block))
+  this_dest_ipv6_cidrs = toset(length(var.peer_subnets_ids) == 0 && var.use_ipv6 ? [data.aws_vpc.peer_vpc.ipv6_cidr_block] : compact(data.aws_subnet.peer[*].ipv6_cidr_block))
+  peer_dest_ipv4_cidrs = toset(length(var.this_subnets_ids) == 0 ? [data.aws_vpc.this_vpc.cidr_block] : compact(data.aws_subnet.this[*].cidr_block))
+  peer_dest_ipv6_cidrs = toset(length(var.this_subnets_ids) == 0 && var.use_ipv6 ? [data.aws_vpc.this_vpc.ipv6_cidr_block] : compact(data.aws_subnet.this[*].ipv6_cidr_block))
 
   # Get associated CIDR blocks
   this_associated_dest_cidrs = toset([for k, v in data.aws_vpc.peer_vpc.cidr_block_associations : v.cidr_block])
