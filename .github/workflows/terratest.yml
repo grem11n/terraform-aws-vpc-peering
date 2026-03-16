@@ -74,7 +74,11 @@ jobs:
       - name: Terratest
         env:
           GOPATH: /home/runner/work/terraform-aws-vpc-peering/go
+        # Contains a quick dirty fix for:
+        # https://github.com/gruntwork-io/terratest/issues/1613
+        # https://github.com/gruntwork-io/terratest/issues/1615
         run: >
           go mod init github.com/grem11n/terraform-aws-vpc-peering &&
+          go mod edit -require github.com/gruntwork-io/terratest@v0.51.0 &&
           go mod tidy &&
           richgo test -v -timeout=30m ./...
