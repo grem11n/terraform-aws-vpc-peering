@@ -18,6 +18,13 @@ module "module_depends_on" {
   this_rts_ids = aws_route_table.this.*.id
   peer_rts_ids = aws_route_table.peer.*.id
 
+  # Pass the CIDRs explicitly so they stay known at plan time. Combined with the
+  # explicit *_rts_ids above, this lets the module plan in a SINGLE apply even
+  # though the VPCs and route tables are created in the same run -- no need to
+  # run Terraform twice.
+  this_vpc_cidr = aws_vpc.this.cidr_block
+  peer_vpc_cidr = aws_vpc.peer.cidr_block
+
   auto_accept_peering = true
 
   tags = {

@@ -88,6 +88,18 @@ variable "peer_rts_ids" {
   default     = []
 }
 
+variable "this_vpc_cidr" {
+  description = "Explicit IPv4 CIDR block of this VPC. When set, the module uses this value instead of reading it from the aws_vpc data source. Provide it (alongside this_rts_ids) when this VPC is created in the same apply as the peering, so the plan does not depend on apply-time-unknown attributes. If empty, the CIDR is read from the data source (default behavior)."
+  type        = string
+  default     = ""
+}
+
+variable "peer_vpc_cidr" {
+  description = "Explicit IPv4 CIDR block of the peer VPC. When set, the module uses this value instead of reading it from the aws_vpc data source. See this_vpc_cidr for rationale. If empty, the CIDR is read from the data source (default behavior)."
+  type        = string
+  default     = ""
+}
+
 variable "use_ipv6" {
   description = "If ipv6 should be used"
   type        = bool
